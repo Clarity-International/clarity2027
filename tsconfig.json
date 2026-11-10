@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": false,
+    "baseUrl": ".",
+    "paths": {
+      "@dust/frame": ["src/shims/frame.tsx"],
+      "@dust/react-hooks": ["src/shims/react-hooks.ts"]
+    }
+  },
+  "include": ["src", "vite.config.ts"]
+}
