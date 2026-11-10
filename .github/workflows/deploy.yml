@@ -1,0 +1,64 @@
+name: Build and publish
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: publish
+  cancel-in-progress: true
+
+jobs:
+  demo:
+    name: Demo site (GitHub Pages)
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npm run build
+        env:
+          BASE_PATH: /${{ github.event.repository.name }}/
+          VITE_ROBOTS: noindex, nofollow
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  live:
+    name: Live site (one.com)
+    if: ${{ vars.ONECOM_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npm run build
+        env:
+          BASE_PATH: /
+          VITE_ROBOTS: index, follow
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+      - name: Upload to one.com over SFTP
+        env:
+          SFTP_HOST: ${{ secrets.ONECOM_SFTP_HOST }}
+          SFTP_USER: ${{ secrets.ONECOM_SFTP_USER }}
+          LFTP_PASSWORD: ${{ secrets.ONECOM_SFTP_PASSWORD }}
+          REMOTE_DIR: ${{ vars.ONECOM_REMOTE_DIR || '/' }}
+        run: |
+          lftp -c "set sftp:auto-confirm yes; set net:max-retries 2; open --env-password -u \"$SFTP_USER\" sftp://$SFTP_HOST; mirror --reverse --verbose dist/ \"$REMOTE_DIR\""
