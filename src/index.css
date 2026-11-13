@@ -3,25 +3,25 @@
 
 /* Default palette (same values as src/frame/theme.ts; the app overrides them live, e.g. high contrast). */
 :root {
-  --background: #F4F1EA;
-  --foreground: #2A2925;
-  --card: #FBFAF6;
-  --card-foreground: #2A2925;
-  --muted: #EAE5DB;
-  --muted-foreground: #5F5A51;
-  --primary: #1F5B50;
-  --primary-foreground: #FBFAF6;
-  --secondary: #A33D1E;
+  --background: #F6FBFD;
+  --foreground: #19364B;
+  --card: #FFFFFF;
+  --card-foreground: #19364B;
+  --muted: #E8F2F6;
+  --muted-foreground: #4C697A;
+  --primary: #0F4C81;
+  --primary-foreground: #FFFFFF;
+  --secondary: #C2410C;
   --secondary-foreground: #FFFFFF;
-  --accent: #D4E6D6;
-  --accent-foreground: #1F5B50;
-  --border: #DAD3C6;
-  --marker: #F1DDA8;
-  --chart-1: #1F5B50;
-  --chart-2: #A33D1E;
-  --chart-3: #8DB49A;
-  --chart-4: #CDBE9E;
-  --chart-5: #5F5A51;
+  --accent: #CAF1F8;
+  --accent-foreground: #0F4C81;
+  --border: #C9DDE5;
+  --marker: #CAF1F8;
+  --chart-1: #0F4C81;
+  --chart-2: #C2410C;
+  --chart-3: #5EA9C6;
+  --chart-4: #CAF1F8;
+  --chart-5: #4C697A;
   --radius: 0.5rem;
 }
 

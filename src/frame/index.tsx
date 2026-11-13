@@ -387,7 +387,7 @@ export default function App() {
             </dl>
           </div>
           <figure className="relative min-w-0" style={{ flex: "1 1 340px" }}>
-            <VancouverImage alt={lang === "fr" ? "Vancouver par un matin ensoleillé de mai : cerisiers en fleurs, le port, Place du Canada, les tours du centre-ville et les montagnes de la rive nord" : "Vancouver on a sunny May morning: cherry blossoms, the harbour, Canada Place, downtown towers and the North Shore mountains"} className="h-full" />
+            <VancouverImage alt={lang === "fr" ? "Vancouver par un matin ensoleillé de mai : cerisiers en fleurs, le port, Place du Canada, les tours du centre-ville et les montagnes de la rive nord" : "Vancouver on a sunny May morning: cherry blossoms, the harbor, Canada Place, downtown towers and the North Shore mountains"} className="h-full" />
             <figcaption className="absolute bottom-0 left-0 bg-background px-4 py-3 text-xs uppercase text-muted-foreground" style={{ letterSpacing: "0.22em" }}>Vancouver · 49.28° N</figcaption>
           </figure>
         </div>
@@ -820,7 +820,7 @@ export default function App() {
           <div className="min-w-0" style={{ flex: "1 1 320px" }}>
             <p className="text-xs font-bold uppercase text-secondary" style={{ letterSpacing: "0.24em" }}>{lang === "fr" ? "Le lieu" : "The venue"}</p>
             <H2>SFU Harbour Centre</H2>
-            <p className="mt-4 text-lg leading-8 text-muted-foreground">{lang === "fr" ? "Au cœur du centre-ville, à quelques pas de Waterfront Station (SkyTrain, SeaBus et West Coast Express), du port et de Gastown." : "In the heart of downtown, steps from Waterfront Station (SkyTrain, SeaBus and West Coast Express), the harbour and Gastown."}</p>
+            <p className="mt-4 text-lg leading-8 text-muted-foreground">{lang === "fr" ? "Au cœur du centre-ville, à quelques pas de Waterfront Station (SkyTrain, SeaBus et West Coast Express), du port et de Gastown." : "In the heart of downtown, steps from Waterfront Station (SkyTrain, SeaBus and West Coast Express), the harbor and Gastown."}</p>
             <p className="mt-4 font-bold text-primary">515 West Hastings Street, Vancouver, BC</p>
           </div>
         </div>
