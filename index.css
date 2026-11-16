@@ -1,0 +1,78 @@
+@import "tailwindcss";
+@source "./frame";
+
+/* Default palette (same values as src/frame/theme.ts; the app overrides them live, e.g. high contrast). */
+:root {
+  --background: #F6FBFD;
+  --foreground: #19364B;
+  --card: #FFFFFF;
+  --card-foreground: #19364B;
+  --muted: #E8F2F6;
+  --muted-foreground: #4C697A;
+  --primary: #0F4C81;
+  --primary-foreground: #FFFFFF;
+  --secondary: #C2410C;
+  --secondary-foreground: #FFFFFF;
+  --accent: #CAF1F8;
+  --accent-foreground: #0F4C81;
+  --border: #C9DDE5;
+  --marker: #CAF1F8;
+  --chart-1: #0F4C81;
+  --chart-2: #C2410C;
+  --chart-3: #5EA9C6;
+  --chart-4: #CAF1F8;
+  --chart-5: #4C697A;
+  --radius: 0.5rem;
+}
+
+@theme {
+  --font-sans: "Atkinson Hyperlegible", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Manrope", "Atkinson Hyperlegible", ui-sans-serif, system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-marker: var(--marker);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--color-border);
+  }
+  html {
+    background: var(--background);
+  }
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  button {
+    cursor: pointer;
+  }
+}

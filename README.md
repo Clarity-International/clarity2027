@@ -1,63 +1,74 @@
 # Clarity2027 website
 
-The Clarity2027 conference website (English and French). No coding needed: GitHub builds and publishes the site for you every time a file changes.
+The Clarity2027 conference website in English and French. GitHub builds and publishes the site whenever changes are committed to the `main` branch.
 
-- **Now:** a free demo address to show the committee (GitHub Pages).
-- **Later:** the same files publish to clarity2027.org on one.com, automatically.
+- **Hosting:** GitHub Pages
+- **Public address:** `https://clarity2027.org`
+- **Domain and DNS:** one.com
+- **Updates:** commit changes to GitHub; no one.com file upload is required
 
----
+## Part 1. Upload the website to GitHub
 
-## Part 1. Put the demo online (about 10 minutes, once)
+1. Sign in to GitHub and open the `Clarity-International/clarity2027` repository.
+2. Unzip the update package. Open the dated folder and select everything inside it, including the hidden `.github` folder.
+3. Drag the files into the top level of the repository.
+4. Click **Commit changes** and commit to the `main` branch.
+5. Go to **Settings**, then **Pages**. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+6. Open the **Actions** tab and select **Build and publish**.
+7. Click **Run workflow**, choose `main`, and run it.
 
-1. Sign in to GitHub. Click **+** (top right), then **New repository**.
-   - Name: `clarity2027` (any name works; it becomes part of the demo address).
-   - Choose **Public**. (Free GitHub accounts can only publish public repositories.)
-   - Click **Create repository**.
-2. On the next page, click **uploading an existing file**.
-3. Unzip `clarity2027-site.zip` on your computer. Open the `clarity2027-site` folder, select **everything inside it**, and drag it into the GitHub page. Click **Commit changes**.
-4. Check that the hidden `.github` folder came through: you should see a `.github` folder in the file list.
-   - If it is missing (common on Mac, where it is hidden): click **Add file**, then **Create new file**. Type `.github/workflows/deploy.yml` as the name, paste the content of that file (open it from the zip with TextEdit or Notepad), and click **Commit changes**.
-5. Go to **Settings**, then **Pages** (left menu). Under **Build and deployment**, set **Source** to **GitHub Actions**.
-6. Go to the **Actions** tab. Click **Build and publish**, then **Run workflow**. Wait for the green tick (2 to 3 minutes).
-7. Your demo is at: `https://YOUR-GITHUB-NAME.github.io/clarity2027/`
+The workflow builds the public site with `/` as its base path and allows search engines to index it.
 
-The demo tells search engines not to list it, so it stays a preview.
+## Part 2. Connect clarity2027.org to GitHub Pages
 
-## Part 2. Update the site
+Keep one.com as the domain and DNS provider. Do not change the nameservers if one.com also provides email for Clarity.
 
-The simplest way: come back to the Dust conversation, ask for the change, and Dust gives you the updated file(s). Then:
+In the one.com DNS settings, create these four `A` records for the root domain. In some one.com interfaces, the root name is shown as `@` or left blank.
 
-1. In the repository, open the folder that contains the file (usually `src/frame`).
-2. Click **Add file**, then **Upload files**, and drag the new file in. It replaces the old one.
-3. Click **Commit changes**. The site updates by itself in 2 to 3 minutes.
+- `185.199.108.153`
+- `185.199.109.153`
+- `185.199.110.153`
+- `185.199.111.153`
 
-Small text edits can also be done directly on GitHub: open `src/frame/content.ts` (English and French texts), click the pencil icon, edit the text between quotation marks, and click **Commit changes**.
+Create this `CNAME` record for `www`:
 
-If something goes wrong, every earlier version is kept in the **History** of each file and can be restored.
+- Name: `www`
+- Target: `clarity-international.github.io`
 
-## Part 3. Publish to clarity2027.org on one.com (when you have the login)
+Do not delete existing `MX`, `TXT`, `SPF`, `DKIM`, or `DMARC` records used for email.
 
-Before you start: in one.com File Manager, download a copy of the current website as a backup.
+Then, in GitHub:
 
-1. In the one.com control panel, find the **SFTP** details: host (server address), username and password.
-2. In GitHub: **Settings** > **Secrets and variables** > **Actions**.
-3. On the **Secrets** tab, click **New repository secret** three times:
-   - `ONECOM_SFTP_HOST`: the SFTP host
-   - `ONECOM_SFTP_USER`: the SFTP username
-   - `ONECOM_SFTP_PASSWORD`: the SFTP password
-4. On the **Variables** tab, click **New repository variable**:
-   - `ONECOM_ENABLED` = `true`
-   - Optional: `ONECOM_REMOTE_DIR` = the folder of the website on the server, if one.com shows one (the default is the top folder `/`).
-5. Go to **Actions** > **Build and publish** > **Run workflow**.
+1. Open **Settings**, then **Pages**.
+2. Enter `clarity2027.org` in **Custom domain**.
+3. Click **Save**.
+4. Wait for GitHub to verify the DNS settings.
+5. Enable **Enforce HTTPS** when it becomes available.
 
-From then on, every change publishes both the demo and clarity2027.org. Passwords stay in GitHub’s encrypted settings; never paste them in a chat or a file.
+For a site published through this GitHub Actions workflow, a `CNAME` file is not required in the repository. The custom domain is configured in GitHub Pages settings.
 
----
+## Part 3. Update the website
 
-## For a web developer (optional)
+For a global update, upload the contents of the new dated update folder to the top level of the repository and commit to `main`.
 
-- Vite + React 18 + Tailwind CSS 4. `npm install`, `npm run dev`, `npm run build` (output in `dist/`).
-- `src/frame/` is the Dust Frame prototype, unchanged. `src/shims/` replaces the two Dust-only helpers (`FrameRoot`, `useFile`, `triggerUserFileDownload`).
-- Texts: `src/frame/content.ts`, `sponsorsContent.ts`, `learnings.ts`. Team: `portraits.ts`. Colours: `theme.ts` and `src/index.css`.
-- Pages use hash addresses (`#cfp`, `#register`, `#sponsors`…), so links can be shared and the Back button works.
-- `.github/workflows/deploy.yml`: job `demo` publishes to GitHub Pages; job `live` uploads `dist/` to one.com over SFTP (lftp) when `ONECOM_ENABLED` is `true`.
+For a small text update, open `src/frame/content.ts` in GitHub and edit the English or French text. Commit the change to `main`.
+
+Every commit to `main` starts the **Build and publish** workflow. The website normally updates within a few minutes.
+
+If something goes wrong, open the **Actions** tab and inspect the failed job. GitHub keeps the history of each file, so earlier versions can be restored.
+
+## For a web developer
+
+- Vite + React 18 + Tailwind CSS 4
+- `npm install`, `npm run dev`, `npm run build`
+- Build output: `dist/`
+- `BASE_PATH=/` is used for the custom domain
+- `src/frame/` contains the website application
+- `src/shims/` replaces the two Dust-only helpers
+- Texts: `src/frame/content.ts`, `sponsorsContent.ts`, and `learnings.ts`
+- Team: `portraits.ts`
+- Colors: `theme.ts` and `src/index.css`
+- Pages use hash addresses such as `#cfp`, `#register`, and `#sponsors`
+- `.github/workflows/deploy.yml` builds and publishes the site through GitHub Pages
+
+The previous one.com SFTP deployment remains in the workflow as an optional fallback. It stays disabled unless the repository variable `ONECOM_ENABLED` is set to `true`.
