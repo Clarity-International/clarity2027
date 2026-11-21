@@ -53,8 +53,8 @@ type SponsorCopy = {
 
 const en: SponsorCopy = {
   title: "Put your name behind clearer law",
-  short: "Five packages from US$2,500 to US$20,000, plus named add-ons. Every sponsor is seen by about 250 delegates in Vancouver and by Clarity’s 650+ members in 50 countries for 12 months.",
-  stats: [["~250", "delegates, fully in person"], ["650+", "Clarity members"], ["50", "countries"], ["12", "months of logo visibility"]],
+  short: "Five packages from USD$ 2,500 to USD$ 20,000, plus named add-ons. Every sponsor is seen by about 250 delegates in Vancouver and by Clarity’s 250+ members in 30+ countries for 12 months.",
+  stats: [["~250", "delegates, fully in person"], ["250+", "Clarity members"], ["30+", "countries"], ["12", "months of logo visibility"]],
   reachTitle: "Who you will reach",
   reach: ["Lawyers and private law firms", "Judges and court professionals", "Government and policy professionals", "Plain language experts, editors and translators", "Designers, researchers and accessibility specialists", "Academics, educators and community organizations"],
   beyond: "Beyond the room: Clarity’s newsletter, website and LinkedIn, plus promotion by partners including SFU Continuing Studies and Editors Canada.",
@@ -78,16 +78,16 @@ const en: SponsorCopy = {
   logoWord: "Logo size",
   sizeNames: { xl: "Extra large", lg: "Large", md: "Medium", sm: "Small" },
   tiers: [
-    { id: "platinum", name: "Platinum", price: "US$20,000", avail: "1 sponsor", slots: 1, size: "xl", level: "Headline", pitch: "A strong presence across the conference and a clear link to the main theme or a track.", benefits: ["Top-level logo on the Clarity2027 and Clarity websites for 12 months", "Naming rights for one flagship element", "One sponsored session, subject to program rules", "Option to introduce a keynote or plenary speaker", "6 complimentary registrations, including the gala dinner", "Priority exhibitor table or booth space"] },
-    { id: "cocktail", name: "Cocktail reception", price: "US$15,000", avail: "1 sponsor · Thursday 6 May", slots: 1, size: "lg", level: "Signature event", pitch: "The flagship social event: Thursday evening, before the gala dinner.", benefits: ["Exclusive naming of the cocktail reception", "Remarks from the sponsor at the reception", "Logo on posters and throughout the reception", "Speaking or workshop opportunity in the program"] },
-    { id: "gold", name: "Gold", price: "US$7,000", avail: "Up to 4 sponsors", slots: 4, size: "md", level: "Major", pitch: "Strong visibility and a meaningful role in the program, without headline status.", benefits: ["Prominent logo on both websites for 12 months", "Sponsorship of one session, panel or workshop", "3 complimentary registrations, including the gala dinner", "A 15-minute introduction, lightning talk or case-study mention", "Exhibitor table or booth space"] },
-    { id: "lunch", name: "Lunch or ice-breaker", price: "From US$5,000", avail: "Up to 2 sponsors", slots: 2, size: "md", level: "Hospitality", pitch: "A lunch, or the Wednesday 5 May ice-breaker reception.", benefits: ["Lunch or reception visibility", "A short 5-minute speaking opportunity", "Signage, table cards and holding slide"] },
-    { id: "silver", name: "Silver", price: "US$2,500", avail: "Up to 8 sponsors", slots: 8, size: "sm", level: "Supporting", pitch: "Support the conference, be visible to delegates and show alignment with its aims.", benefits: ["Logo on both sponsor pages for 12 months", "Listing in the conference program", "Group recognition on signage", "1 complimentary registration", "Material on the Clarity table"] },
+    { id: "platinum", name: "Platinum", price: "USD$ 20,000", avail: "1 sponsor", slots: 1, size: "xl", level: "Headline", pitch: "A strong presence across the conference and a clear link to the main theme or a track.", benefits: ["Top-level logo on the Clarity2027 and Clarity websites for 12 months", "Option to put your name on one flagship element", "One sponsored session, subject to program rules", "Option to introduce a keynote or plenary speaker", "6 complimentary registrations, including the gala dinner", "Priority exhibitor table or booth space"] },
+    { id: "cocktail", name: "Cocktail reception", price: "USD$ 15,000", avail: "1 sponsor · Thursday 6 May", slots: 1, size: "lg", level: "Signature event", pitch: "The flagship social event: Thursday evening, before the gala dinner.", benefits: ["Exclusive naming of the cocktail reception", "Remarks from the sponsor at the reception", "Logo on posters and throughout the reception", "Speaking or workshop opportunity in the program"] },
+    { id: "gold", name: "Gold", price: "USD$ 7,000", avail: "Up to 4 sponsors", slots: 4, size: "md", level: "Major", pitch: "Strong visibility and a meaningful role in the program, without headline status.", benefits: ["Prominent logo on both websites for 12 months", "Sponsorship of one session, panel or workshop", "3 complimentary registrations, including the gala dinner", "A 15-minute introduction, lightning talk or case-study mention", "Exhibitor table or booth space"] },
+    { id: "lunch", name: "Lunch or ice-breaker", price: "From USD$ 5,000", avail: "Up to 2 sponsors", slots: 2, size: "md", level: "Hospitality", pitch: "A lunch, or the Wednesday 5 May ice-breaker reception.", benefits: ["Lunch or reception visibility", "A short 5-minute speaking opportunity", "Signage, table cards and holding slide"] },
+    { id: "silver", name: "Silver", price: "USD$ 2,500", avail: "Up to 8 sponsors", slots: 8, size: "sm", level: "Supporting", pitch: "Support the conference, be visible to delegates and show alignment with its aims.", benefits: ["Logo on both sponsor pages for 12 months", "Listing in the conference program", "Group recognition on signage", "1 complimentary registration", "Material on the Clarity table"] },
   ],
   allNamed: "All confirmed sponsors, at every level, are named in the closing remarks.",
   addonsTitle: "Named opportunities and add-ons",
   addonsIntro: "Available within packages in order of confirmation, or on their own.",
-  addons: [["Lunch, per day", "US$5,000", "Signage, table cards and holding slide"], ["Delegate bag", "US$4,000", "Logo on the bag, plus an optional branded item"], ["Speaker introduction", "US$3,000", "Short introduction of a single session"], ["Refreshment break", "US$2,000", "Per break. Signage and holding slide"]],
+  addons: [["Lunch, per day", "USD$ 5,000", "Signage, table cards and holding slide"], ["Delegate bag", "USD$ 4,000", "Logo on the bag, plus an optional branded item"], ["Speaker introduction", "USD$ 3,000", "Short introduction of a single session"], ["Refreshment break", "USD$ 2,000", "Per break. Signage and holding slide"]],
   inkindTitle: "Other ways to support",
   inkind: ["Accessibility support, such as captioning or interpretation", "A judicial or public-interest session", "Recording or streaming of sessions", "Travel for international speakers or delegates", "A plain language research strand, for example with SFU", "A post-conference resource or report"],
   inkindNote: "Cash is preferred. In-kind offers are assessed case by case against an agreed cash value, with recognition at the matching level.",
@@ -98,14 +98,14 @@ const en: SponsorCopy = {
   cta: "Email the sponsorship team",
   subject: "Clarity2027 sponsorship inquiry",
   homeTitle: "Sponsors",
-  homeBody: "Five packages from US$2,500. Be seen by about 250 delegates and 650+ members in 50 countries.",
+  homeBody: "Five packages from USD$ 2,500. Be seen by about 250 delegates and 250+ members in 30+ countries.",
   homeCta: "Become a sponsor",
 };
 
 const fr: SponsorCopy = {
   title: "Associez votre nom à un droit plus clair",
-  short: "Cinq forfaits de 2 500 $ US à 20 000 $ US, ainsi que des options nommées. Chaque commanditaire est vu par environ 250 délégués à Vancouver et par les 650 membres et plus de Clarity dans 50 pays pendant 12 mois.",
-  stats: [["~250", "délégués, entièrement en personne"], ["650+", "membres de Clarity"], ["50", "pays"], ["12", "mois de visibilité du logo"]],
+  short: "Cinq forfaits de 2 500 $ US à 20 000 $ US, ainsi que des options nommées. Chaque commanditaire est vu par environ 250 délégués à Vancouver et par les 250+ membres de Clarity dans 30+ pays pendant 12 mois.",
+  stats: [["~250", "délégués, entièrement en personne"], ["250+", "membres de Clarity"], ["30+", "pays"], ["12", "mois de visibilité du logo"]],
   reachTitle: "Qui vous rejoindrez",
   reach: ["Avocats et cabinets", "Juges et personnel judiciaire", "Professionnels du gouvernement et des politiques", "Spécialistes du langage clair, réviseurs et traducteurs", "Designers, chercheurs et spécialistes de l’accessibilité", "Universitaires, éducateurs et organismes communautaires"],
   beyond: "Au-delà de la salle : l’infolettre, le site et LinkedIn de Clarity, et la promotion par des partenaires dont SFU Continuing Studies et Réviseurs Canada.",
@@ -129,7 +129,7 @@ const fr: SponsorCopy = {
   logoWord: "Taille du logo",
   sizeNames: { xl: "Très grand", lg: "Grand", md: "Moyen", sm: "Petit" },
   tiers: [
-    { id: "platinum", name: "Platine", price: "20 000 $ US", avail: "1 commanditaire", slots: 1, size: "xl", level: "Principal", pitch: "Une forte présence pendant toute la conférence et un lien clair avec le thème principal ou un volet.", benefits: ["Logo de premier plan sur les sites de Clarity2027 et de Clarity pendant 12 mois", "Droit d’appellation d’un élément phare", "Une séance commanditée, selon les règles du programme", "Possibilité de présenter un conférencier principal", "6 inscriptions gratuites, gala inclus", "Table ou kiosque d’exposition prioritaire"] },
+    { id: "platinum", name: "Platine", price: "20 000 $ US", avail: "1 commanditaire", slots: 1, size: "xl", level: "Principal", pitch: "Une forte présence pendant toute la conférence et un lien clair avec le thème principal ou un volet.", benefits: ["Logo de premier plan sur les sites de Clarity2027 et de Clarity pendant 12 mois", "Possibilité de donner votre nom à un élément phare", "Une séance commanditée, selon les règles du programme", "Possibilité de présenter un conférencier principal", "6 inscriptions gratuites, gala inclus", "Table ou kiosque d’exposition prioritaire"] },
     { id: "cocktail", name: "Cocktail", price: "15 000 $ US", avail: "1 commanditaire · jeudi 6 mai", slots: 1, size: "lg", level: "Événement phare", pitch: "L’événement social phare : jeudi soir, avant le gala.", benefits: ["Appellation exclusive du cocktail", "Allocution du commanditaire pendant le cocktail", "Logo sur les affiches et partout pendant le cocktail", "Occasion de présentation ou d’atelier au programme"] },
     { id: "gold", name: "Or", price: "7 000 $ US", avail: "Jusqu’à 4 commanditaires", slots: 4, size: "md", level: "Majeur", pitch: "Une forte visibilité et un rôle significatif au programme, sans statut principal.", benefits: ["Logo bien en vue sur les deux sites pendant 12 mois", "Commandite d’une séance, d’un panel ou d’un atelier", "3 inscriptions gratuites, gala inclus", "Présentation de 15 minutes, éclair ou étude de cas", "Table ou kiosque d’exposition"] },
     { id: "lunch", name: "Dîner ou cocktail d’accueil", price: "À partir de 5 000 $ US", avail: "Jusqu’à 2 commanditaires", slots: 2, size: "md", level: "Accueil", pitch: "Un dîner, ou le cocktail d’accueil du mercredi 5 mai.", benefits: ["Visibilité pendant le dîner ou le cocktail", "Courte allocution de 5 minutes", "Affichage, cartes de table et diapositive"] },
@@ -149,7 +149,7 @@ const fr: SponsorCopy = {
   cta: "Écrire à l’équipe de commandite",
   subject: "Demande de commandite Clarity2027",
   homeTitle: "Commanditaires",
-  homeBody: "Cinq forfaits à partir de 2 500 $ US. Soyez vu par environ 250 délégués et plus de 650 membres dans 50 pays.",
+  homeBody: "Cinq forfaits à partir de 2 500 $ US. Soyez vu par environ 250 délégués et 250+ membres dans 30+ pays.",
   homeCta: "Devenir commanditaire",
 };
 

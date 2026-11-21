@@ -262,7 +262,7 @@ function SfuLogo({ alt }: { alt: string }) {
     return () => URL.revokeObjectURL(u);
   }, [file]);
   if (!url) return <p className="text-lg font-bold text-secondary">SFU Continuing Studies</p>;
-  return <img src={url} alt={alt} className="h-12 w-auto object-contain" />;
+  return <img src={url} alt={alt} className="h-12 w-52 object-contain" />;
 }
 
 export default function App() {
@@ -915,9 +915,18 @@ export default function App() {
         </div>
       </Section>
       <Section tone="card">
-        <H2>{sp.wallTitle}</H2>
-        <p className="mt-3 text-base text-muted-foreground">{sp.wallIntro}</p>
-        <div className="mt-8"><SponsorWall tiers={sp.tiers} slotLabel={sp.slot} /></div>
+        <div className="flex flex-col gap-6 border-b border-border pb-8 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{lang === "fr" ? "Notre hôte" : "Our Host"}</p>
+            <h2 className="mt-2 font-serif text-2xl text-primary">SFU Continuing Studies</h2>
+          </div>
+          <SfuLogo alt="SFU Continuing Studies" />
+        </div>
+        <div className="mt-8">
+          <H2>{sp.wallTitle}</H2>
+          <p className="mt-3 text-base text-muted-foreground">{sp.wallIntro}</p>
+          <div className="mt-8"><SponsorWall tiers={sp.tiers} slotLabel={sp.slot} /></div>
+        </div>
       </Section>
       <Section>
         <H2>{sp.approachTitle}</H2>
@@ -1156,17 +1165,25 @@ export default function App() {
               {pages[page]}
             </motion.div>
           </AnimatePresence>
-          {page !== "sponsors" && (
-            <section className="border-t border-border bg-card" aria-labelledby="sponsor-strip">
-              <div className="mx-auto max-w-6xl px-5 py-12 lg:px-8">
-                <div className="flex flex-wrap items-end justify-between gap-4">
+          <section className="border-t border-border bg-card" aria-labelledby="sponsor-strip">
+            <div className="mx-auto max-w-6xl px-5 py-12 lg:px-8">
+              <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+                <div className="flex items-center gap-5">
                   <div>
-                    <h2 id="sponsor-strip" className="text-xs font-bold uppercase text-muted-foreground" style={{ letterSpacing: "0.24em" }}>{lang === "fr" ? "Merci à nos commanditaires" : "Thank you to our sponsors"}</h2>
+                    <h2 id="sponsor-strip" className="text-xs font-bold uppercase text-muted-foreground" style={{ letterSpacing: "0.24em" }}>{lang === "fr" ? "Notre hôte" : "Our Host"}</h2>
+                    <p className="mt-2 font-serif text-2xl text-primary">SFU Continuing Studies</p>
+                  </div>
+                  <SfuLogo alt="SFU Continuing Studies" />
+                </div>
+                <div className="flex flex-wrap items-end justify-between gap-4 lg:flex-1 lg:pl-12">
+                  <div>
+                    <p className="text-xs font-bold uppercase text-muted-foreground" style={{ letterSpacing: "0.24em" }}>{lang === "fr" ? "Merci à nos commanditaires" : "Thank you to our sponsors"}</p>
                     <p className="mt-2 text-sm text-muted-foreground">{sp.wallIntro}</p>
                   </div>
                   <button onClick={() => go("sponsors")} className="inline-flex items-center gap-2 text-sm font-bold text-secondary underline decoration-2 underline-offset-4">{sp.homeCta} <ArrowRight size={14} aria-hidden="true" /></button>
                 </div>
-                <div className="mt-6 space-y-3" aria-label={sp.wallTitle} role="list">
+              </div>
+              <div className="mt-6 space-y-3" aria-label={sp.wallTitle} role="list">
                   {sp.tiers.map((t, n) => (
                     <div key={t.id} role="listitem" className="flex flex-wrap items-center gap-4 border-t border-border pt-3">
                       <p className="flex w-48 shrink-0 items-center gap-2"><LevelBadge n={n + 1} /><span><span className="block text-sm font-bold text-primary">{t.name}</span><span className="block text-xs text-muted-foreground">{t.level}</span></span></p>
@@ -1181,8 +1198,7 @@ export default function App() {
                   ))}
                 </div>
               </div>
-            </section>
-          )}
+          </section>
         </main>
 
         {/* Footer */}
@@ -1193,6 +1209,14 @@ export default function App() {
                 <p className="flex items-center gap-3"><ClarityLogo fg="var(--primary-foreground)" moon="var(--marker)" className="h-7 w-auto" /><span className="font-serif text-2xl font-light" style={{ letterSpacing: "0.06em" }}>2027</span></p>
                 <p className="mt-3 font-serif text-lg">{c.footer.tagline}</p>
                 <p className="mt-4 text-sm">{c.facts.dates}<br />{c.facts.city}</p>
+                <p className="mt-4 max-w-sm text-sm leading-6 text-primary-foreground/90">
+                  <Ext href={LINKS.clarityWebsite} label={c.footer.websiteLabel} className="underline decoration-1 underline-offset-4">{c.footer.websiteLabel}</Ext>
+                </p>
+                <p className="mt-3">
+                  <Ext href={LINKS.clarityLinkedin} label={c.footer.linkedinLabel} className="text-sm underline decoration-1 underline-offset-4">
+                    {c.footer.linkedinLabel}
+                  </Ext>
+                </p>
               </div>
               {([[c.footer.explore, ["home", "programme", "speakers", "travel"]], [c.footer.take, ["register", "cfp", "sponsors", "team"]], [c.footer.help, ["contact", "accessibility"]]] as [string, PageId[]][]).map(([title, ids]) => (
                 <nav key={title} aria-label={title}>

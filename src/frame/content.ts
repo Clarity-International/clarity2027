@@ -22,6 +22,8 @@ export const LINKS = {
   translink: "https://www.translink.ca",
   yvr: "https://www.yvr.ca",
   destination: "https://www.destinationvancouver.com",
+  clarityWebsite: "https://www.clarity-international.org/",
+  clarityLinkedin: "https://www.linkedin.com/company/clarity-international-plain-language",
 };
 
 const en = {
@@ -231,9 +233,9 @@ const en = {
   team: {
     kicker: "Organizing team",
     title: "The people behind Clarity2027",
-    short: "Clarity2027 is organized by Clarity, the international plain language association, and hosted by SFU Continuing Studies in Vancouver.",
+    short: "Clarity2027 is organized by Clarity, the international association promoting plain legal language, and hosted by SFU Continuing Studies in Vancouver.",
     clarityTitle: "Clarity",
-    clarityBody: "Founded in 1983 by British solicitor John Walton, Clarity is the largest organization of its kind: 650+ members in 50 countries, including judges, lawyers, government officials and plain language experts.",
+    clarityBody: "Founded in 1983 by British solicitor John Walton, Clarity is the largest organization of its kind: 250+ members in 30+ countries, including judges, lawyers, government officials and plain language experts.",
     hostTitle: "SFU Continuing Studies",
     hostBody: "Home to one of the world’s few university programs dedicated to plain-language training.",
     leadName: "Julie Clement",
@@ -276,6 +278,8 @@ const en = {
     explore: "Explore",
     take: "Take part",
     help: "Help",
+    websiteLabel: "About Clarity",
+    linkedinLabel: "Follow us on Linkedin",
     rights: "© 2026 Clarity",
   },
 };
@@ -489,9 +493,9 @@ const fr: Content = {
   team: {
     kicker: "Équipe organisatrice",
     title: "Les personnes derrière Clarity2027",
-    short: "Clarity2027 est organisée par Clarity, l’association internationale du langage clair, et présentée par SFU Continuing Studies à Vancouver.",
+    short: "Clarity2027 est organisée par Clarity, l’association internationale qui promeut le langage juridique clair, et présentée par SFU Continuing Studies à Vancouver.",
     clarityTitle: "Clarity",
-    clarityBody: "Fondée en 1983 par le solicitor britannique John Walton, Clarity est la plus grande organisation du genre : plus de 650 membres dans 50 pays, dont des juges, des avocats, des fonctionnaires et des spécialistes du langage clair.",
+    clarityBody: "Fondée en 1983 par le solicitor britannique John Walton, Clarity est la plus grande organisation du genre : 250+ membres dans 30+ pays, dont des juges, des avocats, des fonctionnaires et des spécialistes du langage clair.",
     hostTitle: "SFU Continuing Studies",
     hostBody: "L’un des rares programmes universitaires au monde consacrés à la formation en langage clair.",
     leadName: "Julie Clement",
@@ -534,6 +538,8 @@ const fr: Content = {
     explore: "Explorer",
     take: "Participer",
     help: "Aide",
+    websiteLabel: "À propos de Clarity",
+    linkedinLabel: "Suivez-nous sur Linkedin",
     rights: "© 2026 Clarity",
   },
 };
