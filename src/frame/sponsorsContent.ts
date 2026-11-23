@@ -104,7 +104,7 @@ const en: SponsorCopy = {
 
 const fr: SponsorCopy = {
   title: "Associez votre nom à un droit plus clair",
-  short: "Cinq forfaits de 2 500 $ US à 20 000 $ US, ainsi que des options nommées. Chaque commanditaire est vu par environ 250 délégués à Vancouver et par les 250+ membres de Clarity dans 30+ pays pendant 12 mois.",
+  short: "Cinq forfaits de 2 500 $ USD à 20 000 $ USD, ainsi que des options nommées. Chaque commanditaire est vu par environ 250 délégués à Vancouver et par les 250+ membres de Clarity dans 30+ pays pendant 12 mois.",
   stats: [["~250", "délégués, entièrement en personne"], ["250+", "membres de Clarity"], ["30+", "pays"], ["12", "mois de visibilité du logo"]],
   reachTitle: "Qui vous rejoindrez",
   reach: ["Avocats et cabinets", "Juges et personnel judiciaire", "Professionnels du gouvernement et des politiques", "Spécialistes du langage clair, réviseurs et traducteurs", "Designers, chercheurs et spécialistes de l’accessibilité", "Universitaires, éducateurs et organismes communautaires"],
@@ -129,16 +129,16 @@ const fr: SponsorCopy = {
   logoWord: "Taille du logo",
   sizeNames: { xl: "Très grand", lg: "Grand", md: "Moyen", sm: "Petit" },
   tiers: [
-    { id: "platinum", name: "Platine", price: "20 000 $ US", avail: "1 commanditaire", slots: 1, size: "xl", level: "Principal", pitch: "Une forte présence pendant toute la conférence et un lien clair avec le thème principal ou un volet.", benefits: ["Logo de premier plan sur les sites de Clarity2027 et de Clarity pendant 12 mois", "Possibilité de donner votre nom à un élément phare", "Une séance commanditée, selon les règles du programme", "Possibilité de présenter un conférencier principal", "6 inscriptions gratuites, gala inclus", "Table ou kiosque d’exposition prioritaire"] },
-    { id: "cocktail", name: "Cocktail", price: "15 000 $ US", avail: "1 commanditaire · jeudi 6 mai", slots: 1, size: "lg", level: "Événement phare", pitch: "L’événement social phare : jeudi soir, avant le gala.", benefits: ["Appellation exclusive du cocktail", "Allocution du commanditaire pendant le cocktail", "Logo sur les affiches et partout pendant le cocktail", "Occasion de présentation ou d’atelier au programme"] },
-    { id: "gold", name: "Or", price: "7 000 $ US", avail: "Jusqu’à 4 commanditaires", slots: 4, size: "md", level: "Majeur", pitch: "Une forte visibilité et un rôle significatif au programme, sans statut principal.", benefits: ["Logo bien en vue sur les deux sites pendant 12 mois", "Commandite d’une séance, d’un panel ou d’un atelier", "3 inscriptions gratuites, gala inclus", "Présentation de 15 minutes, éclair ou étude de cas", "Table ou kiosque d’exposition"] },
-    { id: "lunch", name: "Dîner ou cocktail d’accueil", price: "À partir de 5 000 $ US", avail: "Jusqu’à 2 commanditaires", slots: 2, size: "md", level: "Accueil", pitch: "Un dîner, ou le cocktail d’accueil du mercredi 5 mai.", benefits: ["Visibilité pendant le dîner ou le cocktail", "Courte allocution de 5 minutes", "Affichage, cartes de table et diapositive"] },
-    { id: "silver", name: "Argent", price: "2 500 $ US", avail: "Jusqu’à 8 commanditaires", slots: 8, size: "sm", level: "Soutien", pitch: "Soutenir la conférence, être vu des délégués et affirmer votre adhésion à ses objectifs.", benefits: ["Logo sur les deux pages des commanditaires pendant 12 mois", "Mention dans le programme", "Reconnaissance collective sur l’affichage", "1 inscription gratuite", "Documentation sur la table de Clarity"] },
+    { id: "platinum", name: "Platine", price: "20 000 $ USD", avail: "1 commanditaire", slots: 1, size: "xl", level: "Principal", pitch: "Une forte présence pendant toute la conférence et un lien clair avec le thème principal ou un volet.", benefits: ["Logo de premier plan sur les sites de Clarity2027 et de Clarity pendant 12 mois", "Possibilité de donner votre nom à un élément phare", "Une séance commanditée, selon les règles du programme", "Possibilité de présenter un conférencier principal", "6 inscriptions gratuites, gala inclus", "Table ou kiosque d’exposition prioritaire"] },
+    { id: "cocktail", name: "Cocktail", price: "15 000 $ USD", avail: "1 commanditaire · jeudi 6 mai", slots: 1, size: "lg", level: "Événement phare", pitch: "L’événement social phare : jeudi soir, avant le gala.", benefits: ["Appellation exclusive du cocktail", "Allocution du commanditaire pendant le cocktail", "Logo sur les affiches et partout pendant le cocktail", "Occasion de présentation ou d’atelier au programme"] },
+    { id: "gold", name: "Or", price: "7 000 $ USD", avail: "Jusqu’à 4 commanditaires", slots: 4, size: "md", level: "Majeur", pitch: "Une forte visibilité et un rôle significatif au programme, sans statut principal.", benefits: ["Logo bien en vue sur les deux sites pendant 12 mois", "Commandite d’une séance, d’un panel ou d’un atelier", "3 inscriptions gratuites, gala inclus", "Présentation de 15 minutes, éclair ou étude de cas", "Table ou kiosque d’exposition"] },
+    { id: "lunch", name: "Dîner ou cocktail d’accueil", price: "À partir de 5 000 $ USD", avail: "Jusqu’à 2 commanditaires", slots: 2, size: "md", level: "Accueil", pitch: "Un dîner, ou le cocktail d’accueil du mercredi 5 mai.", benefits: ["Visibilité pendant le dîner ou le cocktail", "Courte allocution de 5 minutes", "Affichage, cartes de table et diapositive"] },
+    { id: "silver", name: "Argent", price: "2 500 $ USD", avail: "Jusqu’à 8 commanditaires", slots: 8, size: "sm", level: "Soutien", pitch: "Soutenir la conférence, être vu des délégués et affirmer votre adhésion à ses objectifs.", benefits: ["Logo sur les deux pages des commanditaires pendant 12 mois", "Mention dans le programme", "Reconnaissance collective sur l’affichage", "1 inscription gratuite", "Documentation sur la table de Clarity"] },
   ],
   allNamed: "Tous les commanditaires confirmés, à tous les niveaux, sont nommés lors de la clôture.",
   addonsTitle: "Occasions nommées et options",
   addonsIntro: "Offertes dans les forfaits par ordre de confirmation, ou séparément.",
-  addons: [["Dîner, par jour", "5 000 $ US", "Affichage, cartes de table et diapositive"], ["Sac des délégués", "4 000 $ US", "Logo sur le sac, et un article promotionnel facultatif"], ["Présentation d’un conférencier", "3 000 $ US", "Courte présentation d’une séance"], ["Pause-café", "2 000 $ US", "Par pause. Affichage et diapositive"]],
+  addons: [["Dîner, par jour", "5 000 $ USD", "Affichage, cartes de table et diapositive"], ["Sac des délégués", "4 000 $ USD", "Logo sur le sac, et un article promotionnel facultatif"], ["Présentation d’un conférencier", "3 000 $ USD", "Courte présentation d’une séance"], ["Pause-café", "2 000 $ USD", "Par pause. Affichage et diapositive"]],
   inkindTitle: "Autres façons de soutenir",
   inkind: ["Soutien à l’accessibilité, comme le sous-titrage ou l’interprétation", "Une séance judiciaire ou d’intérêt public", "Enregistrement ou diffusion des séances", "Déplacements de conférenciers ou délégués internationaux", "Un volet de recherche en langage clair, par exemple avec SFU", "Une ressource ou un rapport post-conférence"],
   inkindNote: "Les contributions en argent sont privilégiées. Les offres en nature sont évaluées au cas par cas selon une valeur convenue, avec une reconnaissance équivalente.",
@@ -149,7 +149,7 @@ const fr: SponsorCopy = {
   cta: "Écrire à l’équipe de commandite",
   subject: "Demande de commandite Clarity2027",
   homeTitle: "Commanditaires",
-  homeBody: "Cinq forfaits à partir de 2 500 $ US. Soyez vu par environ 250 délégués et 250+ membres dans 30+ pays.",
+  homeBody: "Cinq forfaits à partir de 2 500 $ USD. Soyez vu par environ 250 délégués et 250+ membres dans 30+ pays.",
   homeCta: "Devenir commanditaire",
 };
 

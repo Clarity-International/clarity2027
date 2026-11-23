@@ -22,7 +22,7 @@ type Extra = {
 
 const en: Extra = {
   numbersLabel: "Clarity2027 in numbers",
-  numbers: [["1983", "Clarity founded"], ["650+", "members"], ["50", "countries"], ["~250", "delegates in Vancouver"], ["4", "tracks"]],
+  numbers: [["1983", "Clarity founded"], ["250+", "members"], ["30+", "countries"], ["~250", "delegates in Vancouver"], ["4", "tracks"]],
   glanceKicker: "The format",
   glanceTitle: "Four days at a glance",
   glanceNote: "Draft outline. The full schedule follows the proposal review.",
@@ -37,7 +37,7 @@ const en: Extra = {
   approvalLead: "Most delegates need a manager’s sign-off. Here are the arguments, and an email you can adapt in two minutes.",
   reasons: [
     ["Practical skills", "Workshops and case studies on writing, designing and testing legal and public information people can use."],
-    ["Peers from 50 countries", "Meet lawyers, judges, public servants, designers and plain language experts in one place."],
+    ["Peers from 30+ countries", "Meet lawyers, judges, public servants, designers and plain language experts in one place."],
     ["Four focused tracks", "Law, policy and standards; equity and access to justice; legal design; and a judicial track."],
     ["Bilingual and accessible", "English, with some breakout sessions in French. Accessibility needs are planned for from the start."],
   ],
@@ -53,7 +53,7 @@ Clarity has brought together people working on clear legal and public communicat
 
 What I would bring back:
 - practical methods to make our [documents / forms / letters / website] clearer
-- examples from peers in about 50 countries
+- examples from peers in 30+ countries
 - contacts with experts we could call on later
 
 The early bird rate ends 15 December 2026. Rates are listed at https://clarity.wildapricot.org/event-6854605
@@ -72,7 +72,7 @@ Thank you,
 
 const fr: Extra = {
   numbersLabel: "Clarity2027 en chiffres",
-  numbers: [["1983", "fondation de Clarity"], ["650+", "membres"], ["50", "pays"], ["~250", "délégués à Vancouver"], ["4", "volets"]],
+  numbers: [["1983", "fondation de Clarity"], ["250+", "membres"], ["30+", "pays"], ["~250", "délégués à Vancouver"], ["4", "volets"]],
   glanceKicker: "Le format",
   glanceTitle: "Quatre jours en un coup d’œil",
   glanceNote: "Plan provisoire. L’horaire complet suivra l’évaluation des propositions.",
@@ -87,7 +87,7 @@ const fr: Extra = {
   approvalLead: "La plupart des délégués ont besoin de l’accord d’un gestionnaire. Voici les arguments, et un courriel à adapter en deux minutes.",
   reasons: [
     ["Des compétences pratiques", "Ateliers et études de cas pour rédiger, concevoir et tester une information juridique et publique utilisable."],
-    ["Des pairs de 50 pays", "Rencontrez juristes, juges, fonctionnaires, designers et spécialistes du langage clair au même endroit."],
+    ["Des pairs de 30+ pays", "Rencontrez juristes, juges, fonctionnaires, designers et spécialistes du langage clair au même endroit."],
     ["Quatre volets ciblés", "Droit, politiques et normes; équité et accès à la justice; design juridique; et un volet judiciaire."],
     ["Bilingue et accessible", "En anglais, avec certaines séances en français. Les besoins d’accessibilité sont prévus dès le départ."],
   ],
@@ -103,7 +103,7 @@ Depuis 1983, Clarity réunit les personnes qui travaillent à une communication 
 
 Ce que je rapporterais :
 - des méthodes concrètes pour rendre nos [documents / formulaires / lettres / site Web] plus clairs
-- des exemples de pairs d’environ 50 pays
+- des exemples de pairs de 30+ pays
 - des contacts avec des experts que nous pourrions consulter
 
 Le tarif hâtif prend fin le 15 décembre 2026. Les tarifs sont indiqués à https://clarity.wildapricot.org/event-6854605

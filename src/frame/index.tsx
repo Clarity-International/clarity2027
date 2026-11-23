@@ -51,8 +51,25 @@ const GLOBAL_CSS = `
 `;
 
 const PAGE_IDS = Object.keys(CONTENT.en.nav) as PageId[];
+// Pages with a clean address (https://clarity2027.org/<path>). Other pages keep #hash addresses.
+const CLEAN_PATHS: Partial<Record<PageId, string>> = { cfp: "call-for-proposals" };
+const SITE_BASE: string = (() => {
+  try {
+    return (import.meta as unknown as { env?: { BASE_URL?: string } }).env?.BASE_URL || "/";
+  } catch {
+    return "/";
+  }
+})();
+function pagePath(p: PageId): string {
+  const clean = CLEAN_PATHS[p];
+  if (clean) return `${SITE_BASE}${clean}`;
+  return p === "home" ? SITE_BASE : `${SITE_BASE}#${p}`;
+}
 function pageFromHash(): PageId {
   try {
+    const path = window.location.pathname.replace(/\/+$/, "").split("/").pop() || "";
+    const byPath = (Object.keys(CLEAN_PATHS) as PageId[]).find((id) => CLEAN_PATHS[id] === path);
+    if (byPath) return byPath;
     const h = window.location.hash.replace("#", "") as PageId;
     return PAGE_IDS.includes(h) ? h : "home";
   } catch {
@@ -62,7 +79,7 @@ function pageFromHash(): PageId {
 
 function Ext({ href, children, className, label }: { href: string; children: ReactNode; className?: string; label: string }) {
   return (
-    <a href={href} target="_blank" rel="noreferrer" className={className}>
+    <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
       {children}
       <span className="sr-only"> {label}</span>
     </a>
@@ -127,12 +144,12 @@ function LogoSlot({ size, label }: { size: Tier["size"]; label: string }) {
   );
 }
 
-function Portrait({ src, initials, alt, className }: { src: string; initials: string; alt: string; className: string }) {
+function Portrait({ src, initials, alt, className, objectPosition = "50% 22%" }: { src: string; initials: string; alt: string; className: string; objectPosition?: string }) {
   const [failed, setFailed] = useState(false);
   if (failed) {
     return <span className={`flex items-center justify-center bg-accent font-serif text-accent-foreground ${className}`} role="img" aria-label={alt}>{initials}</span>;
   }
-  return <img src={src} alt={alt} onError={() => setFailed(true)} className={`object-cover ${className}`} style={{ objectPosition: "50% 22%" }} loading="lazy" />;
+  return <img src={src} alt={alt} onError={() => setFailed(true)} className={`object-cover ${className}`} style={{ objectPosition }} loading="lazy" />;
 }
 
 function MemberName({ m, lang, nw }: { m: Member; lang: "en" | "fr"; nw: string }) {
@@ -191,9 +208,9 @@ function SponsorWall({ tiers, slotLabel, compact = false }: { tiers: Tier[]; slo
     <div className="space-y-8">
       {tiers.map((t, n) => (
         <div key={t.id}>
-          <div className="flex items-center justify-between gap-4 border-b-2 border-primary pb-2">
-            <h3 className="flex items-center gap-3 font-serif text-sm font-semibold uppercase text-primary" style={{ letterSpacing: "0.2em" }}><LevelBadge n={n + 1} />{t.name}<span className="font-sans text-xs font-normal normal-case tracking-normal text-muted-foreground">{t.level}</span></h3>
-            {!compact && <span className="text-sm text-muted-foreground">{t.avail}</span>}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-primary pb-2">
+            <h3 className="flex min-w-0 flex-wrap items-center gap-3 font-serif text-sm font-semibold uppercase text-primary" style={{ letterSpacing: "0.2em" }}><LevelBadge n={n + 1} />{t.name}<span className="font-sans text-xs font-normal normal-case tracking-normal text-muted-foreground">{t.level}</span></h3>
+            {!compact && <span className="shrink-0 text-sm text-muted-foreground">{t.avail}</span>}
           </div>
           <ul className="mt-4 grid gap-3" style={{ gridTemplateColumns: t.size === "xl" || t.size === "lg" ? "1fr" : `repeat(auto-fill, minmax(min(100%, ${min[t.size]}), 1fr))` }} aria-label={`${t.name}: ${t.slots}`}>
             {Array.from({ length: t.slots }).map((_, k) => <LogoSlot key={k} size={compact && t.size === "xl" ? "lg" : t.size} label={slotLabel} />)}
@@ -261,8 +278,9 @@ function SfuLogo({ alt }: { alt: string }) {
     setUrl(u);
     return () => URL.revokeObjectURL(u);
   }, [file]);
-  if (!url) return <p className="text-lg font-bold text-secondary">SFU Continuing Studies</p>;
-  return <img src={url} alt={alt} className="h-12 w-52 object-contain" />;
+  const frame = "inline-flex h-12 w-52 shrink-0 items-center justify-center";
+  if (!url) return <span className={`${frame} text-sm font-bold text-secondary`} aria-label={alt}>{alt}</span>;
+  return <span className={frame}><img src={url} alt={alt} className="max-h-full max-w-full object-contain" /></span>;
 }
 
 export default function App() {
@@ -289,16 +307,26 @@ export default function App() {
     setPage(p);
     setMenu(false);
     try {
-      window.history.pushState(null, "", p === "home" ? window.location.pathname + window.location.search : `#${p}`);
+      window.history.pushState(null, "", pagePath(p));
     } catch {
       /* history unavailable (sandboxed preview) */
     }
   };
 
   useEffect(() => {
+    // Old links such as clarity2027.org/#cfp move to the clean address.
+    try {
+      const h = window.location.hash.replace("#", "") as PageId;
+      if (CLEAN_PATHS[h]) window.history.replaceState(null, "", pagePath(h));
+    } catch {
+      /* history unavailable (sandboxed preview) */
+    }
     const onNav = () => {
-      const h = window.location.hash.replace("#", "");
-      if (h === "" || PAGE_IDS.includes(h as PageId)) setPage(pageFromHash());
+      const h = window.location.hash.replace("#", "") as PageId;
+      if (CLEAN_PATHS[h]) {
+        try { window.history.replaceState(null, "", pagePath(h)); } catch { /* ignore */ }
+      }
+      setPage(pageFromHash());
     };
     window.addEventListener("popstate", onNav);
     window.addEventListener("hashchange", onNav);
@@ -507,7 +535,7 @@ export default function App() {
             <ul className="grid gap-x-6 gap-y-5" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 240px), 1fr))" }}>
               {TEAM.map((m) => (
                 <li key={m.name} className="flex items-center gap-4">
-                  {m.img ? <Portrait src={m.img} initials={m.initials} alt="" className="h-16 w-16 shrink-0 rounded-full border-2 border-primary text-lg" /> : <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-accent font-serif text-lg text-accent-foreground" aria-hidden="true">{m.initials}</span>}
+                  {m.img ? <Portrait src={m.img} initials={m.initials} alt="" objectPosition={m.name === "Natalia Torro" ? "50% 50%" : undefined} className="h-16 w-16 shrink-0 rounded-full border-2 border-primary text-lg" /> : <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-accent font-serif text-lg text-accent-foreground" aria-hidden="true">{m.initials}</span>}
                   <span className="min-w-0"><span className="block"><MemberName m={m} lang={lang} nw={nw} /></span><span className="block text-sm text-muted-foreground">{m.role ? m.role[lang] : c.team.tbcRole}</span></span>
                 </li>
               ))}
@@ -815,7 +843,7 @@ export default function App() {
         <div className="flex flex-wrap items-center gap-10">
           <figure className="min-w-0" style={{ flex: "1 1 340px" }}>
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Vancouver_%28BC%2C_Canada%29%2C_Harbour_Centre_--_2022_--_1860.jpg/960px-Vancouver_%28BC%2C_Canada%29%2C_Harbour_Centre_--_2022_--_1860.jpg" alt={lang === "fr" ? "La tour Harbour Centre et son observatoire, au centre-ville de Vancouver" : "Harbour Centre tower and its lookout, downtown Vancouver"} className="block h-96 w-full object-cover" style={{ borderRadius: "var(--radius)" }} loading="lazy" referrerPolicy="no-referrer" />
-            <figcaption className="mt-2 text-xs text-muted-foreground">Photo: Dietmar Rabich, <a className="underline" href="https://commons.wikimedia.org/wiki/File:Vancouver_(BC,_Canada),_Harbour_Centre_--_2022_--_1860.jpg" target="_blank" rel="noreferrer">Wikimedia Commons</a>, CC BY-SA 4.0</figcaption>
+            <figcaption className="mt-2 text-xs text-muted-foreground">Photo: Dietmar Rabich, <a className="underline" href="https://commons.wikimedia.org/wiki/File:Vancouver_(BC,_Canada),_Harbour_Centre_--_2022_--_1860.jpg" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a>, CC BY-SA 4.0</figcaption>
           </figure>
           <div className="min-w-0" style={{ flex: "1 1 320px" }}>
             <p className="text-xs font-bold uppercase text-secondary" style={{ letterSpacing: "0.24em" }}>{lang === "fr" ? "Le lieu" : "The venue"}</p>
@@ -915,11 +943,8 @@ export default function App() {
         </div>
       </Section>
       <Section tone="card">
-        <div className="flex flex-col gap-6 border-b border-border pb-8 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{lang === "fr" ? "Notre hôte" : "Our Host"}</p>
-            <h2 className="mt-2 font-serif text-2xl text-primary">SFU Continuing Studies</h2>
-          </div>
+        <div className="flex flex-wrap items-center justify-between gap-5 border-b border-border pb-8">
+          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{lang === "fr" ? "Notre hôte" : "Our Host"}</p>
           <SfuLogo alt="SFU Continuing Studies" />
         </div>
         <div className="mt-8">
@@ -953,7 +978,7 @@ export default function App() {
           <ul className="grid min-w-0 gap-4" style={{ flex: "2 1 520px", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 180px), 1fr))" }}>
             {TEAM.map((m) => (
               <li key={m.name} className="border border-border bg-card p-5" style={{ borderRadius: "var(--radius)" }}>
-                {m.img ? <Portrait src={m.img} initials={m.initials} alt={lang === "fr" ? `Portrait de ${m.name}` : `Portrait of ${m.name}`} className="block aspect-square w-full text-5xl" /> : <div className="flex aspect-square w-full items-center justify-center bg-accent font-serif text-5xl text-accent-foreground" aria-hidden="true">{m.initials}</div>}
+                {m.img ? <Portrait src={m.img} initials={m.initials} alt={lang === "fr" ? `Portrait de ${m.name}` : `Portrait of ${m.name}`} objectPosition={m.name === "Natalia Torro" ? "50% 50%" : undefined} className="block aspect-square w-full text-5xl" /> : <div className="flex aspect-square w-full items-center justify-center bg-accent font-serif text-5xl text-accent-foreground" aria-hidden="true">{m.initials}</div>}
                 <p className="mt-4 text-lg"><MemberName m={m} lang={lang} nw={nw} /></p>
                 <p className="text-base text-muted-foreground">{m.role ? m.role[lang] : c.team.tbcRole}</p>
               </li>
@@ -1165,40 +1190,41 @@ export default function App() {
               {pages[page]}
             </motion.div>
           </AnimatePresence>
-          <section className="border-t border-border bg-card" aria-labelledby="sponsor-strip">
-            <div className="mx-auto max-w-6xl px-5 py-12 lg:px-8">
-              <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-                <div className="flex items-center gap-5">
-                  <div>
-                    <h2 id="sponsor-strip" className="text-xs font-bold uppercase text-muted-foreground" style={{ letterSpacing: "0.24em" }}>{lang === "fr" ? "Notre hôte" : "Our Host"}</h2>
-                    <p className="mt-2 font-serif text-2xl text-primary">SFU Continuing Studies</p>
-                  </div>
-                  <SfuLogo alt="SFU Continuing Studies" />
-                </div>
-                <div className="flex flex-wrap items-end justify-between gap-4 lg:flex-1 lg:pl-12">
-                  <div>
-                    <p className="text-xs font-bold uppercase text-muted-foreground" style={{ letterSpacing: "0.24em" }}>{lang === "fr" ? "Merci à nos commanditaires" : "Thank you to our sponsors"}</p>
-                    <p className="mt-2 text-sm text-muted-foreground">{sp.wallIntro}</p>
-                  </div>
-                  <button onClick={() => go("sponsors")} className="inline-flex items-center gap-2 text-sm font-bold text-secondary underline decoration-2 underline-offset-4">{sp.homeCta} <ArrowRight size={14} aria-hidden="true" /></button>
-                </div>
-              </div>
-              <div className="mt-6 space-y-3" aria-label={sp.wallTitle} role="list">
-                  {sp.tiers.map((t, n) => (
-                    <div key={t.id} role="listitem" className="flex flex-wrap items-center gap-4 border-t border-border pt-3">
-                      <p className="flex w-48 shrink-0 items-center gap-2"><LevelBadge n={n + 1} /><span><span className="block text-sm font-bold text-primary">{t.name}</span><span className="block text-xs text-muted-foreground">{t.level}</span></span></p>
-                      <ul className="grid min-w-0 flex-1 gap-3" style={{ gridTemplateColumns: `repeat(auto-fill, minmax(min(100%, ${{ xl: "100%", lg: "70%", md: "170px", sm: "110px" }[t.size]}), 1fr))` }} aria-label={t.name}>
-                        {Array.from({ length: t.slots }).map((_, k) => (
-                          <li key={k} className={`flex items-center justify-center border border-dashed border-border bg-background ${{ xl: "h-20", lg: "h-16", md: "h-12", sm: "h-10" }[t.size]}`} style={{ borderRadius: "var(--radius)" }}>
-                            <span className={`uppercase text-muted-foreground ${t.size === "xl" ? "text-sm" : "text-xs"}`} style={{ letterSpacing: "0.16em" }}>{sp.slot}</span>
-                          </li>
-                        ))}
-                      </ul>
+          {page !== "sponsors" && (
+            <section className="border-t border-border bg-card" aria-labelledby={page !== "home" ? "sponsor-strip" : "sponsor-strip-thanks"}>
+              <div className="mx-auto max-w-6xl px-5 py-12 lg:px-8">
+                <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+                  {page !== "home" && (
+                    <div className="flex min-w-0 shrink-0 flex-wrap items-center gap-5 lg:w-80">
+                      <h2 id="sponsor-strip" className="text-xs font-bold uppercase text-muted-foreground" style={{ letterSpacing: "0.24em" }}>{lang === "fr" ? "Notre hôte" : "Our Host"}</h2>
+                      <SfuLogo alt="SFU Continuing Studies" />
                     </div>
-                  ))}
+                  )}
+                  <div className={`flex flex-wrap items-end justify-between gap-4 border-border lg:flex-1 ${page !== "home" ? "lg:border-l lg:pl-12" : ""}`}>
+                    <div>
+                      <p id="sponsor-strip-thanks" className="text-xs font-bold uppercase text-muted-foreground" style={{ letterSpacing: "0.24em" }}>{lang === "fr" ? "Merci à nos commanditaires" : "Thank you to our sponsors"}</p>
+                      <p className="mt-2 text-sm text-muted-foreground">{sp.wallIntro}</p>
+                    </div>
+                    <button onClick={() => go("sponsors")} className="inline-flex items-center gap-2 text-sm font-bold text-secondary underline decoration-2 underline-offset-4">{sp.homeCta} <ArrowRight size={14} aria-hidden="true" /></button>
+                  </div>
                 </div>
-              </div>
-          </section>
+                <div className="mt-6 space-y-3" aria-label={sp.wallTitle} role="list">
+                    {sp.tiers.map((t, n) => (
+                      <div key={t.id} role="listitem" className="flex flex-wrap items-center gap-4 border-t border-border pt-3">
+                        <p className="flex w-48 shrink-0 items-center gap-2"><LevelBadge n={n + 1} /><span><span className="block text-sm font-bold text-primary">{t.name}</span><span className="block text-xs text-muted-foreground">{t.level}</span></span></p>
+                        <ul className="grid min-w-0 flex-1 gap-3" style={{ gridTemplateColumns: `repeat(auto-fill, minmax(min(100%, ${{ xl: "100%", lg: "70%", md: "170px", sm: "110px" }[t.size]}), 1fr))` }} aria-label={t.name}>
+                          {Array.from({ length: t.slots }).map((_, k) => (
+                            <li key={k} className={`flex items-center justify-center border border-dashed border-border bg-background ${{ xl: "h-20", lg: "h-16", md: "h-12", sm: "h-10" }[t.size]}`} style={{ borderRadius: "var(--radius)" }}>
+                              <span className={`uppercase text-muted-foreground ${t.size === "xl" ? "text-sm" : "text-xs"}`} style={{ letterSpacing: "0.16em" }}>{sp.slot}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+            </section>
+          )}
         </main>
 
         {/* Footer */}

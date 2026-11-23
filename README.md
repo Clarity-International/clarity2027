@@ -68,7 +68,7 @@ If something goes wrong, open the **Actions** tab and inspect the failed job. Gi
 - Texts: `src/frame/content.ts`, `sponsorsContent.ts`, and `learnings.ts`
 - Team: `portraits.ts`
 - Colors: `theme.ts` and `src/index.css`
-- Pages use hash addresses such as `#cfp`, `#register`, and `#sponsors`
+- The call for proposals has a clean address: `https://clarity2027.org/call-for-proposals` (old `#cfp` links redirect to it). Other pages use hash addresses such as `#register` and `#sponsors`. To add another clean address, add it to `CLEAN_PATHS` in `src/frame/index.tsx` and in `scripts/postbuild.mjs`
 - `.github/workflows/deploy.yml` builds and publishes the site through GitHub Pages
 
-The previous one.com SFTP deployment remains in the workflow as an optional fallback. It stays disabled unless the repository variable `ONECOM_ENABLED` is set to `true`.
+The previous one.com SFTP deployment remains in the workflow as an optional fallback. It stays disabled unless the repository variable `ONECOM_ENABLED` is set to `true`. If enabled, configure the repository secret `ONECOM_SFTP_KNOWN_HOSTS` with the exact SSH host-key line for the one.com SFTP host; the workflow refuses to connect without host-key verification.
