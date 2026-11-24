@@ -28,9 +28,9 @@ const en: Extra = {
   glanceNote: "Draft outline. The full schedule follows the proposal review.",
   days: [
     { day: "Wednesday", date: "5 May", theme: "Welcome", items: "Evening ice-breaker reception" },
-    { day: "Thursday", date: "6 May", theme: "Open", items: "Opening keynote, parallel sessions, cocktail reception and gala dinner" },
+    { day: "Thursday", date: "6 May", theme: "Open", items: "Opening keynote, parallel sessions, gala reception" },
     { day: "Friday", date: "7 May", theme: "Deepen", items: "Keynote and parallel sessions across the four tracks" },
-    { day: "Saturday", date: "8 May", theme: "Close", items: "Half day and closing session" },
+    { day: "Saturday", date: "8 May", theme: "Close", items: "Morning sessions and closing, ending at noon" },
   ],
   approvalKicker: "Get approval",
   approvalTitle: "Make the case to your organization",
@@ -47,7 +47,7 @@ const en: Extra = {
 
 Hi [manager’s name],
 
-I would like to attend Clarity2027, the international plain language conference, at SFU Harbour Centre in Vancouver from 5 to 8 May 2027.
+I would like to attend Clarity2027, the international plain language conference, at SFU Harbour Centre in Vancouver from Thursday morning, 6 May, through Saturday noon, 8 May 2027. A Wednesday evening welcome event is still being planned.
 
 Clarity has brought together people working on clear legal and public communication since 1983. The 2027 conference has four tracks: law, policy and standards; equity, inclusion and access to justice; legal design and multimodal communication; and a judicial track.
 
@@ -58,7 +58,7 @@ What I would bring back:
 
 The early bird rate ends 15 December 2026. Rates are listed at https://clarity.wildapricot.org/event-6854605
 
-Estimated costs: registration [amount], travel [amount], accommodation [amount].
+Estimated costs: registration USD$ 325 early bird or USD$ 449 regular for members (USD$ 375 / USD$ 499 for non-members), optional gala reception USD$ 75 (coffee breaks, pastries, light lunches, and afternoon snacks on Thursday and Friday are included in registration), travel [amount], accommodation [amount].
 
 I am happy to share a short summary with the team when I return.
 
@@ -78,9 +78,9 @@ const fr: Extra = {
   glanceNote: "Plan provisoire. L’horaire complet suivra l’évaluation des propositions.",
   days: [
     { day: "Mercredi", date: "5 mai", theme: "Accueillir", items: "Cocktail d’accueil en soirée" },
-    { day: "Jeudi", date: "6 mai", theme: "Ouvrir", items: "Conférence d’ouverture, séances simultanées, cocktail et gala" },
+    { day: "Jeudi", date: "6 mai", theme: "Ouvrir", items: "Conférence d’ouverture, séances simultanées, cocktail gala" },
     { day: "Vendredi", date: "7 mai", theme: "Approfondir", items: "Conférence principale et séances dans les quatre volets" },
-    { day: "Samedi", date: "8 mai", theme: "Conclure", items: "Demi-journée et séance de clôture" },
+    { day: "Samedi", date: "8 mai", theme: "Conclure", items: "Séances du matin et clôture, fin à midi" },
   ],
   approvalKicker: "Obtenir l’approbation",
   approvalTitle: "Convaincre votre organisation",
@@ -97,7 +97,7 @@ const fr: Extra = {
 
 Bonjour [nom du gestionnaire],
 
-J’aimerais participer à Clarity2027, la conférence internationale sur le langage clair, à SFU Harbour Centre à Vancouver, du 5 au 8 mai 2027.
+J’aimerais participer à Clarity2027, la conférence internationale sur le langage clair, à SFU Harbour Centre à Vancouver, du jeudi matin 6 mai au samedi midi 8 mai 2027. Un événement d’accueil est encore en préparation pour le mercredi soir.
 
 Depuis 1983, Clarity réunit les personnes qui travaillent à une communication juridique et publique claire. La conférence 2027 comporte quatre volets : droit, politiques et normes; équité, inclusion et accès à la justice; design juridique et communication multimodale; et un volet judiciaire.
 
@@ -108,7 +108,7 @@ Ce que je rapporterais :
 
 Le tarif hâtif prend fin le 15 décembre 2026. Les tarifs sont indiqués à https://clarity.wildapricot.org/event-6854605
 
-Coûts estimés : inscription [montant], transport [montant], hébergement [montant].
+Coûts estimés : inscription 325 $ USD au tarif hâtif ou 449 $ USD au tarif régulier pour les membres (375 $ USD / 499 $ USD pour les non-membres), cocktail gala optionnel 75 $ USD (pauses café, viennoiseries, dîners légers et collations du jeudi et du vendredi inclus dans l’inscription), transport [montant], hébergement [montant].
 
 Je pourrai présenter un court résumé à l’équipe à mon retour.
 

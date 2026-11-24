@@ -761,7 +761,59 @@ export default function App() {
             <p className="mt-4 font-serif text-4xl">{c.facts.dates}</p>
             <p className="mt-1 text-lg">{c.facts.city}</p>
           </div>
-          <BtnPrimary href={LINKS.register} label={nw}><Ticket size={18} aria-hidden="true" /> {c.register.cta}</BtnPrimary>
+          <div className="flex flex-col items-start gap-3 sm:items-end">
+            <p className="sm:text-right"><span className="block text-sm font-bold uppercase tracking-widest">{c.register.fromLabel}</span><span className="block font-serif text-4xl">{c.register.fromPrice}</span></p>
+            <BtnPrimary href={LINKS.register} label={nw}><Ticket size={18} aria-hidden="true" /> {c.register.cta}</BtnPrimary>
+          </div>
+        </div>
+      </Section>
+      <Section>
+        <div className="border border-border bg-background p-6" style={{ borderRadius: "var(--radius)" }}>
+          <h2 className="font-serif text-2xl font-semibold text-primary">{c.register.includedTitle}</h2>
+          <ul className="mt-4 grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))" }}>
+            {c.register.included.map((item) => (
+              <li key={item} className="flex items-start gap-2 text-base text-foreground"><Check size={18} className="mt-1 shrink-0 text-secondary" aria-hidden="true" />{item}</li>
+            ))}
+          </ul>
+          <p className="mt-5 border-t border-border pt-4 text-base leading-7 text-muted-foreground">{c.register.scheduleNote}</p>
+        </div>
+        <div className="mt-6 flex flex-col gap-2 border-l-4 border-secondary bg-card p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h3 className="text-lg font-bold text-primary">{c.register.galaTitle}</h3>
+            <p className="mt-1 text-base text-muted-foreground">{c.register.galaBody}</p>
+          </div>
+          <p className="font-serif text-2xl text-primary whitespace-nowrap">{c.register.galaPrice}</p>
+        </div>
+        <p className="mt-4 text-base text-muted-foreground">{c.register.joinText} <Ext href={LINKS.joinClarity} label={nw} className="font-bold text-primary underline underline-offset-4">{c.register.joinCta}</Ext></p>
+      </Section>
+      <Section tone="card">
+        <H2>{c.register.ratesTitle}</H2>
+        <p className="mt-3 max-w-2xl text-lg leading-8 text-muted-foreground">{c.register.ratesLead}</p>
+        <div className="mt-8 grid gap-6" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+          <div className="relative border-2 border-secondary bg-background p-6" style={{ borderRadius: "var(--radius)" }}>
+            <h3 className="font-serif text-2xl font-semibold text-primary">{c.register.ratesEarly}</h3>
+            <p className="text-base text-muted-foreground">{c.register.ratesEarlyWhen} · {c.register.ratesSave}</p>
+            <dl className="mt-5 space-y-3">
+              {[c.register.ratesMember, c.register.ratesNonMember].map((who, k) => (
+                <div key={who} className="flex items-baseline justify-between gap-4 border-b border-border pb-3">
+                  <dt className="text-base font-bold text-primary">{who}</dt>
+                  <dd className="font-serif text-2xl text-primary whitespace-nowrap">{c.register.ratesEarlyPrices[k]}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <div className="border border-border bg-background p-6" style={{ borderRadius: "var(--radius)" }}>
+            <h3 className="font-serif text-2xl font-semibold text-primary">{c.register.ratesRegular}</h3>
+            <p className="text-base text-muted-foreground">{c.register.ratesRegularWhen}</p>
+            <dl className="mt-5 space-y-3">
+              {[c.register.ratesMember, c.register.ratesNonMember].map((who, k) => (
+                <div key={who} className="flex items-baseline justify-between gap-4 border-b border-border pb-3">
+                  <dt className="text-base font-bold text-muted-foreground">{who}</dt>
+                  <dd className="font-serif text-2xl text-foreground whitespace-nowrap">{c.register.ratesRegularPrices[k]}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
       </Section>
       <Section>
