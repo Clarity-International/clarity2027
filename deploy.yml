@@ -22,21 +22,27 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20
-      - run: npm install
+      - run: npm install --ignore-scripts --no-audit --no-fund
       - run: npm run build
         env:
           BASE_PATH: /
           VITE_ROBOTS: index, follow
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
+      # Artifact name includes the attempt number, so "Re-run jobs" never finds two "github-pages" artifacts.
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         with:
           path: dist
+          name: github-pages-${{ github.run_attempt }}
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
+        with:
+          artifact_name: github-pages-${{ github.run_attempt }}
 
   live:
     name: Live site (one.com)
@@ -44,17 +50,27 @@ jobs:
     if: ${{ vars.ONECOM_ENABLED == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 20
-      - run: npm install
+      - run: npm install --ignore-scripts --no-audit --no-fund
       - run: npm run build
         env:
           BASE_PATH: /
           VITE_ROBOTS: index, follow
       - name: Install lftp
         run: sudo apt-get update && sudo apt-get install -y lftp
+      - name: Configure SFTP host verification
+        env:
+          SFTP_KNOWN_HOSTS: ${{ secrets.ONECOM_SFTP_KNOWN_HOSTS }}
+        run: |
+          test -n "$SFTP_KNOWN_HOSTS"
+          install -d -m 700 "$HOME/.ssh"
+          printf '%s\n' "$SFTP_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/known_hosts"
       - name: Upload to one.com over SFTP
         env:
           SFTP_HOST: ${{ secrets.ONECOM_SFTP_HOST }}
@@ -62,4 +78,4 @@ jobs:
           LFTP_PASSWORD: ${{ secrets.ONECOM_SFTP_PASSWORD }}
           REMOTE_DIR: ${{ vars.ONECOM_REMOTE_DIR || '/' }}
         run: |
-          lftp -c "set sftp:auto-confirm yes; set net:max-retries 2; open --env-password -u \"$SFTP_USER\" sftp://$SFTP_HOST; mirror --reverse --verbose dist/ \"$REMOTE_DIR\""
+          lftp -c "set sftp:auto-confirm no; set sftp:connect-program \"ssh -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts\"; set net:max-retries 2; open --env-password -u \"$SFTP_USER\" sftp://$SFTP_HOST; mirror --reverse --verbose dist/ \"$REMOTE_DIR\""
