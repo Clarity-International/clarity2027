@@ -24,13 +24,13 @@ const en: Extra = {
   numbersLabel: "Clarity2027 in numbers",
   numbers: [["1983", "Clarity founded"], ["250+", "members"], ["30+", "countries"], ["~250", "delegates in Vancouver"], ["4", "tracks"]],
   glanceKicker: "The format",
-  glanceTitle: "Four days at a glance",
-  glanceNote: "Draft outline. The full schedule follows the proposal review.",
+  glanceTitle: "Two and a half days at a glance",
+  glanceNote: "Draft outline. A Wednesday evening welcome event is still being planned. The conference runs from Thursday morning through Saturday noon.",
   days: [
-    { day: "Wednesday", date: "5 May", theme: "Welcome", items: "Evening ice-breaker reception" },
-    { day: "Thursday", date: "6 May", theme: "Open", items: "Opening keynote, parallel sessions, gala reception" },
-    { day: "Friday", date: "7 May", theme: "Deepen", items: "Keynote and parallel sessions across the four tracks" },
-    { day: "Saturday", date: "8 May", theme: "Close", items: "Morning sessions and closing, ending at noon" },
+    { day: "Wednesday", date: "5 May", theme: "Welcome", items: "Evening welcome event, details to come" },
+    { day: "Thursday", date: "6 May", theme: "Open", items: "Registration and coffee from 8:00, opening keynote, track breakouts, long lunch, plenary and gala reception from 5 to 8 pm" },
+    { day: "Friday", date: "7 May", theme: "Deepen", items: "Coffee from 8:30, keynote, track breakouts, long lunch and plenary" },
+    { day: "Saturday", date: "8 May", theme: "Close", items: "Morning program ends at 12:30; membership general assemblies and association activities in the afternoon" },
   ],
   approvalKicker: "Get approval",
   approvalTitle: "Make the case to your organization",
@@ -58,7 +58,7 @@ What I would bring back:
 
 The early bird rate ends 15 December 2026. Rates are listed at https://clarity.wildapricot.org/event-6854605
 
-Estimated costs: registration USD$ 325 early bird or USD$ 449 regular for members (USD$ 375 / USD$ 499 for non-members), optional gala reception USD$ 75 (coffee breaks, pastries, light lunches, and afternoon snacks on Thursday and Friday are included in registration), travel [amount], accommodation [amount].
+Estimated costs: registration USD$ 325 early bird or USD$ 449 regular for members (USD$ 375 / USD$ 499 for non-members), gala reception ticket USD$ 75 (coffee breaks, pastries, light lunches, and afternoon snacks on Thursday and Friday are included in registration), travel [amount], accommodation [amount].
 
 I am happy to share a short summary with the team when I return.
 
@@ -77,10 +77,10 @@ const fr: Extra = {
   glanceTitle: "Quatre jours en un coup d’œil",
   glanceNote: "Plan provisoire. L’horaire complet suivra l’évaluation des propositions.",
   days: [
-    { day: "Mercredi", date: "5 mai", theme: "Accueillir", items: "Cocktail d’accueil en soirée" },
-    { day: "Jeudi", date: "6 mai", theme: "Ouvrir", items: "Conférence d’ouverture, séances simultanées, cocktail gala" },
-    { day: "Vendredi", date: "7 mai", theme: "Approfondir", items: "Conférence principale et séances dans les quatre volets" },
-    { day: "Samedi", date: "8 mai", theme: "Conclure", items: "Séances du matin et clôture, fin à midi" },
+    { day: "Mercredi", date: "5 mai", theme: "Accueillir", items: "Événement d’accueil en soirée, détails à venir" },
+    { day: "Jeudi", date: "6 mai", theme: "Ouvrir", items: "Inscription et café dès 8 h, conférence d’ouverture, séances par volet, long dîner, plénière et cocktail gala de 17 h à 20 h" },
+    { day: "Vendredi", date: "7 mai", theme: "Approfondir", items: "Café dès 8 h 30, conférence principale, séances par volet, long dîner et plénière" },
+    { day: "Samedi", date: "8 mai", theme: "Conclure", items: "Le programme du matin se termine à 12 h 30; assemblées générales et activités associatives l’après-midi" },
   ],
   approvalKicker: "Obtenir l’approbation",
   approvalTitle: "Convaincre votre organisation",
@@ -108,7 +108,7 @@ Ce que je rapporterais :
 
 Le tarif hâtif prend fin le 15 décembre 2026. Les tarifs sont indiqués à https://clarity.wildapricot.org/event-6854605
 
-Coûts estimés : inscription 325 $ USD au tarif hâtif ou 449 $ USD au tarif régulier pour les membres (375 $ USD / 499 $ USD pour les non-membres), cocktail gala optionnel 75 $ USD (pauses café, viennoiseries, dîners légers et collations du jeudi et du vendredi inclus dans l’inscription), transport [montant], hébergement [montant].
+Coûts estimés : inscription 325 $ USD au tarif hâtif ou 449 $ USD au tarif régulier pour les membres (375 $ USD / 499 $ USD pour les non-membres), billet pour le cocktail gala 75 $ USD (pauses café, viennoiseries, dîners légers et collations du jeudi et du vendredi inclus dans l’inscription), transport [montant], hébergement [montant].
 
 Je pourrai présenter un court résumé à l’équipe à mon retour.
 

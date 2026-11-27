@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 export function useFile(path: string): Blob | null {
   const [blob, setBlob] = useState<Blob | null>(null);
   useEffect(() => {
+    if (!path) return;
     let alive = true;
     const url = `${import.meta.env.BASE_URL}${path.replace(/^\.\//, "")}`;
     fetch(url)

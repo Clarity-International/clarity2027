@@ -27,10 +27,25 @@ import { CONTENT, LINKS } from "./content";
 import { EXTRA } from "./learnings";
 import { JULIE_IMG, TEAM, type Member } from "./portraits";
 import { VANCOUVER_IMG } from "./vancouverImage";
-import { SPONSORS } from "./sponsorsContent";
+import { SPONSORS, CONFIRMED } from "./sponsorsContent";
 import { LOGO_C, LOGO_MOON, LOGO_LETTERS, LOGO_VARIANTS, logoSvg } from "./logo";
-import type { Tier } from "./sponsorsContent";
+import type { Tier, Sponsor } from "./sponsorsContent";
 import type { Content, Locale, PageId } from "./content";
+
+const SCALE_START = 8 * 60;
+const SCALE_END = 20 * 60;
+const PX_PER_MIN = 1.5;
+function toMin(hhmm: string): number {
+  const [h, m] = hhmm.split(":").map(Number);
+  return h * 60 + m;
+}
+function fmtDur(min: number, fr: boolean): string {
+  const h = Math.floor(min / 60);
+  const m = min % 60;
+  if (h === 0) return `${m} min`;
+  if (m === 0) return fr ? `${h} h` : `${h} h`;
+  return fr ? `${h} h ${String(m).padStart(2, "0")}` : `${h} h ${m} min`;
+}
 
 const DEADLINE = new Date("2026-12-15T23:59:00-08:00").getTime();
 const PRIMARY_NAV: PageId[] = ["programme", "speakers", "travel", "cfp"];
@@ -144,6 +159,31 @@ function LogoSlot({ size, label }: { size: Tier["size"]; label: string }) {
   );
 }
 
+// A confirmed sponsor: its logo (transparent, no frame) when one is set, otherwise its name.
+function SponsorLogoImg({ path, name, h }: { path: string; name: string; h: string }) {
+  const file = useFile(path);
+  const [url, setUrl] = useState<string | null>(null);
+  useEffect(() => {
+    if (!file) return;
+    const blob = path.endsWith(".svg") ? new Blob([file], { type: "image/svg+xml" }) : file;
+    const u = URL.createObjectURL(blob);
+    setUrl(u);
+    return () => URL.revokeObjectURL(u);
+  }, [file, path]);
+  if (!url) return <span className={`flex items-center font-serif text-sm font-semibold text-primary ${h}`}>{name}</span>;
+  return <img src={url} alt={name} className={`w-auto max-w-full object-contain ${h}`} />;
+}
+
+function SponsorMark({ s, newTab, h }: { s: Sponsor; newTab: string; h: string }) {
+  return (
+    <li className="flex items-center">
+      <Ext href={s.url} label={newTab} className="inline-flex items-center rounded-sm transition-opacity hover:opacity-80">
+        {s.logo ? <SponsorLogoImg path={s.logo} name={s.name} h={h} /> : <span className={`flex items-center font-serif text-sm font-semibold text-primary ${h}`}>{s.name}</span>}
+      </Ext>
+    </li>
+  );
+}
+
 function Portrait({ src, initials, alt, className, objectPosition = "50% 22%" }: { src: string; initials: string; alt: string; className: string; objectPosition?: string }) {
   const [failed, setFailed] = useState(false);
   if (failed) {
@@ -186,7 +226,7 @@ function TierLadder({ tiers, levelWord, logoWord, sizeNames }: { tiers: Tier[]; 
             <LevelBadge n={k + 1} />
             <div>
               <p className="font-bold text-primary"><span className="sr-only">{levelWord} {k + 1}: </span>{t.name}</p>
-              <p className="text-xs uppercase text-muted-foreground" style={{ letterSpacing: "0.16em" }}>{t.level} · {t.avail}</p>
+              <p className="text-xs uppercase text-muted-foreground" style={{ letterSpacing: "0.16em" }}>{t.level}{t.avail ? ` · ${t.avail}` : ""}</p>
             </div>
           </div>
           <div className="min-w-0" style={{ flex: "2 1 220px" }}>
@@ -202,7 +242,7 @@ function TierLadder({ tiers, levelWord, logoWord, sizeNames }: { tiers: Tier[]; 
   );
 }
 
-function SponsorWall({ tiers, slotLabel, compact = false }: { tiers: Tier[]; slotLabel: string; compact?: boolean }) {
+function SponsorWall({ tiers, slotLabel, newTab, compact = false }: { tiers: Tier[]; slotLabel: string; newTab: string; compact?: boolean }) {
   const min = { xl: "100%", lg: "100%", md: "200px", sm: "140px" };
   return (
     <div className="space-y-8">
@@ -210,18 +250,25 @@ function SponsorWall({ tiers, slotLabel, compact = false }: { tiers: Tier[]; slo
         <div key={t.id}>
           <div className="flex flex-wrap items-center justify-between gap-3 border-b-2 border-primary pb-2">
             <h3 className="flex min-w-0 flex-wrap items-center gap-3 font-serif text-sm font-semibold uppercase text-primary" style={{ letterSpacing: "0.2em" }}><LevelBadge n={n + 1} />{t.name}<span className="font-sans text-xs font-normal normal-case tracking-normal text-muted-foreground">{t.level}</span></h3>
-            {!compact && <span className="shrink-0 text-sm text-muted-foreground">{t.avail}</span>}
+            {!compact && t.avail && <span className="shrink-0 text-sm text-muted-foreground">{t.avail}</span>}
           </div>
-          <ul className="mt-4 grid gap-3" style={{ gridTemplateColumns: t.size === "xl" || t.size === "lg" ? "1fr" : `repeat(auto-fill, minmax(min(100%, ${min[t.size]}), 1fr))` }} aria-label={`${t.name}: ${t.slots}`}>
-            {Array.from({ length: t.slots }).map((_, k) => <LogoSlot key={k} size={compact && t.size === "xl" ? "lg" : t.size} label={slotLabel} />)}
-          </ul>
+          {(CONFIRMED[t.id]?.length ?? 0) > 0 && (
+            <ul className="mt-5 flex flex-wrap items-center gap-x-12 gap-y-6" aria-label={t.name}>
+              {CONFIRMED[t.id].map((s) => <SponsorMark key={s.name} s={s} newTab={newTab} h={{ xl: "h-28", lg: "h-20", md: "h-16", sm: "h-12" }[t.size]} />)}
+            </ul>
+          )}
+          {t.slots > (CONFIRMED[t.id]?.length ?? 0) && (
+            <ul className={`${(CONFIRMED[t.id]?.length ?? 0) > 0 ? "mt-6" : "mt-4"} grid gap-3`} style={{ gridTemplateColumns: t.size === "xl" || t.size === "lg" ? "1fr" : `repeat(auto-fill, minmax(min(100%, ${min[t.size]}), 1fr))` }} aria-label={`${t.name}: ${slotLabel}`}>
+              {Array.from({ length: t.slots - (CONFIRMED[t.id]?.length ?? 0) }).map((_, k) => <LogoSlot key={k} size={compact && t.size === "xl" ? "lg" : t.size} label={slotLabel} />)}
+            </ul>
+          )}
         </div>
       ))}
     </div>
   );
 }
 
-function PageHead({ kicker, title, short, c, h1Ref }: { kicker: string; title: string; short: string; c: Content; h1Ref: React.MutableRefObject<HTMLHeadingElement | null> }) {
+function PageHead({ kicker, title, short, c, h1Ref, actions }: { kicker: string; title: string; short: string; c: Content; h1Ref: React.MutableRefObject<HTMLHeadingElement | null>; actions?: ReactNode }) {
   return (
     <header className="relative overflow-hidden border-b border-border">
       
@@ -234,6 +281,7 @@ function PageHead({ kicker, title, short, c, h1Ref }: { kicker: string; title: s
           <p className="text-xs font-bold uppercase tracking-widest text-secondary">{c.meta.inShort}</p>
           <p className="mt-2 text-lg leading-8 text-foreground">{short}</p>
         </aside>
+        {actions && <div className="mt-8 flex flex-wrap items-center gap-4">{actions}</div>}
       </div>
     </header>
   );
@@ -294,6 +342,7 @@ export default function App() {
   const [checked, setChecked] = useState<number[]>([]);
   const [faqOpen, setFaqOpen] = useState<number | null>(0);
   const [track, setTrack] = useState(0);
+  const [schedView, setSchedView] = useState<"list" | "scale">("scale");
   const h1Ref = useRef<HTMLHeadingElement | null>(null);
   const first = useRef(true);
   const systemReduce = useReducedMotion();
@@ -599,9 +648,97 @@ export default function App() {
           </div>
         </div>
       </Section>
+      <Section>
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <H2>{c.programme.mockTitle}</H2>
+            <p className="mt-3 max-w-3xl text-lg leading-8 text-muted-foreground">{c.programme.mockNote}</p>
+          </div>
+          <div role="group" aria-label={c.programme.scheduleTitle} className="flex border border-border bg-card p-1" style={{ borderRadius: "var(--radius)" }}>
+            {(["scale", "list"] as const).map((v) => (
+              <button key={v} type="button" aria-pressed={schedView === v} onClick={() => setSchedView(v)} className={`px-4 py-2 text-sm font-bold ${schedView === v ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`} style={{ borderRadius: "calc(var(--radius) - 2px)" }}>
+                {v === "scale" ? c.programme.viewScale : c.programme.viewList}
+              </button>
+            ))}
+          </div>
+        </div>
+        {schedView === "scale" && (
+          <div className="mt-6">
+            <div className="overflow-x-auto border border-border bg-card" style={{ borderRadius: "var(--radius)" }}>
+              <div className="flex" style={{ minWidth: "860px" }}>
+                <div className="shrink-0 border-r border-border" style={{ width: "3.5rem" }}>
+                  <div className="border-b-2 border-primary" style={{ height: "4rem" }} />
+                  <div className="relative" style={{ height: `${(SCALE_END - SCALE_START) * PX_PER_MIN}px` }}>
+                    {Array.from({ length: (SCALE_END - SCALE_START) / 60 + 1 }, (_, i) => (
+                      <span key={i} className="absolute right-2 text-xs font-medium text-muted-foreground" style={{ top: `${i * 60 * PX_PER_MIN - 8}px`, fontVariantNumeric: "tabular-nums" }}>
+                        {lang === "fr" ? `${8 + i} h` : `${((8 + i - 1) % 12) + 1}${8 + i < 12 ? " am" : " pm"}`}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                {c.programme.mockDays.map((day) => (
+                  <div key={day.day} className="min-w-0 flex-1 border-r border-border">
+                    <div className="flex flex-col justify-center border-b-2 border-primary px-3" style={{ height: "4rem" }}>
+                      <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{day.date}</p>
+                      <p className="font-serif text-lg font-semibold text-primary">{day.day}</p>
+                    </div>
+                    <div className="relative" style={{ height: `${(SCALE_END - SCALE_START) * PX_PER_MIN}px` }}>
+                      {Array.from({ length: (SCALE_END - SCALE_START) / 60 }, (_, i) => (
+                        <div key={i} className="absolute inset-x-0 border-t border-border" style={{ top: `${i * 60 * PX_PER_MIN}px` }} />
+                      ))}
+                      {day.rows.filter((r) => r[4]).map(([time, title, , kind, raw]) => {
+                        const [s0, e0] = raw.split("-");
+                        const start = toMin(s0);
+                        const dur = toMin(e0) - start;
+                        const h = dur * PX_PER_MIN;
+                        const tone = kind === "b" ? "bg-muted text-muted-foreground" : kind === "e" ? "bg-accent text-accent-foreground" : kind === "p" ? "bg-primary text-primary-foreground" : "bg-background text-primary border border-primary";
+                        return (
+                          <div key={raw} title={`${time} · ${title} · ${fmtDur(dur, lang === "fr")}`} className={`absolute overflow-hidden px-2 ${tone}`} style={{ top: `${(start - SCALE_START) * PX_PER_MIN + 1}px`, height: `${h - 2}px`, left: "4px", right: "4px", borderRadius: "4px" }}>
+                            {h >= 40 ? (
+                              <div className="py-1">
+                                <p className="text-xs font-bold leading-4">{title}</p>
+                                <p className="text-xs leading-4">{fmtDur(dur, lang === "fr")}</p>
+                              </div>
+                            ) : (
+                              <p className="truncate text-xs font-medium leading-4" style={{ paddingTop: `${Math.max(0, (h - 2 - 16) / 2)}px` }}>{h >= 14 ? `${title} · ${fmtDur(dur, lang === "fr")}` : ""}</p>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+        {schedView === "list" && (
+        <div className="mt-6 grid items-start gap-6" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))" }}>
+          {c.programme.mockDays.map((day) => (
+            <article key={day.day} className="min-w-0 overflow-hidden border border-border bg-background" style={{ borderRadius: "var(--radius)" }}>
+              <header className="border-b-2 border-primary bg-card px-5 py-4">
+                <p className="text-sm font-bold uppercase tracking-widest text-muted-foreground">{day.date}</p>
+                <h3 className="mt-1 font-serif text-2xl font-semibold text-primary">{day.day}</h3>
+              </header>
+              <ol>
+                {day.rows.map(([time, title, detail, kind]) => (
+                  <li key={`${day.day}-${time}`} className={`flex items-start gap-4 border-b border-l-4 border-b-border px-5 py-3 ${kind === "b" ? "border-l-transparent bg-muted" : kind === "e" ? "border-l-transparent bg-accent" : kind === "p" ? "border-l-primary bg-card" : "border-l-transparent bg-card"}`}>
+                    <p className="shrink-0 pt-px text-sm font-medium text-muted-foreground" style={{ width: "7.5rem", fontVariantNumeric: "tabular-nums" }}>{time}</p>
+                    <div className="min-w-0">
+                      <h4 className={`leading-6 ${kind === "b" ? "font-medium text-muted-foreground" : "font-bold text-primary"}`}>{title}</h4>
+                      <p className="text-sm leading-6 text-muted-foreground">{detail}</p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </article>
+          ))}
+        </div>
+        )}
+      </Section>
       <Section tone="card">
         <H2>{c.programme.formatsTitle}</H2>
-        <dl className="mt-8 grid gap-px border border-border bg-border" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
+        <dl className="mt-8 grid grid-cols-1 gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
           {c.programme.formats.map(([n, d]) => (
             <div key={n} className="bg-card p-6">
               <dt className="text-lg font-bold text-primary">{n}</dt>
@@ -936,7 +1073,19 @@ export default function App() {
 
   const Sponsors = (
     <>
-      <PageHead kicker={c.sponsors.kicker} title={sp.title} short={sp.short} c={c} h1Ref={h1Ref} />
+      <PageHead
+        kicker={c.sponsors.kicker}
+        title={sp.title}
+        short={sp.short}
+        c={c}
+        h1Ref={h1Ref}
+        actions={
+          <>
+            <a href={`mailto:${LINKS.sponsor}?subject=${encodeURIComponent(sp.subject)}`} className="c27-cta inline-flex min-h-12 items-center gap-3 rounded-md bg-secondary px-7 py-3 text-sm font-bold uppercase tracking-widest text-secondary-foreground underline-offset-4 transition-colors hover:underline"><Mail size={16} aria-hidden="true" />{sp.heroCta}</a>
+            <a href="#packages" onClick={(e) => { e.preventDefault(); document.getElementById("packages")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }); }} className="inline-flex min-h-12 items-center gap-2 text-sm font-bold text-primary underline decoration-2 underline-offset-4">{sp.packagesLink} <ArrowRight size={14} aria-hidden="true" /></a>
+          </>
+        }
+      />
       <section className="border-b border-border bg-primary text-primary-foreground">
         <dl className="mx-auto grid max-w-6xl px-5 py-10 lg:px-8" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "1.5rem" }}>
           {sp.stats.map(([n, l]) => (
@@ -961,17 +1110,18 @@ export default function App() {
         <H2>{sp.ladderTitle}</H2>
         <p className="mt-3 max-w-2xl text-base leading-7 text-muted-foreground">{sp.ladderIntro}</p>
         <div className="mt-6"><TierLadder tiers={sp.tiers} levelWord={sp.levelWord} logoWord={sp.logoWord} sizeNames={sp.sizeNames} /></div>
-        <h3 className="mt-14 font-serif text-2xl font-semibold text-primary">{sp.tiersTitle}</h3>
+        <h3 id="packages" className="mt-14 scroll-mt-24 font-serif text-2xl font-semibold text-primary">{sp.tiersTitle}</h3>
         <div className="mt-6 grid gap-5" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))" }}>
           {sp.tiers.map((t, k) => (
             <article key={t.id} className={`flex flex-col p-6 ${k === 0 ? "border-2 border-primary bg-primary text-primary-foreground" : k === 1 ? "border-2 border-primary bg-accent text-accent-foreground" : k === 4 ? "border border-dashed border-border bg-background" : "border border-border bg-background"}`} style={{ borderRadius: "var(--radius)", gridColumn: k < 2 ? "1 / -1" : undefined }}>
               <p className={`mb-3 flex items-center gap-2 text-xs font-bold uppercase ${k === 0 ? "" : "text-primary"}`} style={{ letterSpacing: "0.16em" }}><LevelBadge n={k + 1} light={k === 0} />{sp.levelWord} {k + 1} · {t.level}</p>
-              <p className={`text-xs uppercase ${k === 0 ? "text-accent" : "text-secondary"}`} style={{ letterSpacing: "0.2em" }}>{t.avail}</p>
+              {t.avail ? <p className={`text-xs uppercase ${k === 0 ? "text-accent" : "text-secondary"}`} style={{ letterSpacing: "0.2em" }}>{t.avail}</p> : <p className="text-xs" aria-hidden="true">{"\u00a0"}</p>}
               <h3 className={`mt-3 font-serif font-semibold ${k < 2 ? "text-4xl" : "text-2xl"} ${k === 0 ? "" : "text-primary"}`}>{t.name}</h3>
               <p className={`mt-1 font-serif font-light ${k < 2 ? "text-4xl" : "text-3xl"}`}>{t.price}</p>
               <p className={`mt-4 text-base leading-7 ${k === 0 ? "" : "text-muted-foreground"}`}>{t.pitch}</p>
               <p className={`mt-5 text-xs font-bold uppercase ${k === 0 ? "text-accent" : "text-muted-foreground"}`} style={{ letterSpacing: "0.18em" }}>{sp.perks}</p>
               <ul className={`mt-3 flex-1 gap-x-8 gap-y-2 ${k < 2 ? "grid" : "space-y-2"}`} style={k < 2 ? { gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))" } : undefined}>{t.benefits.map((b) => <li key={b} className="flex gap-2 text-sm leading-6"><Check size={16} className={`mt-1 shrink-0 ${k === 0 ? "text-accent" : "text-secondary"}`} aria-hidden="true" />{b}</li>)}</ul>
+              <a href={`mailto:${LINKS.sponsor}?subject=${encodeURIComponent(`${sp.tierSubject} ${t.name}`)}`} className={`mt-6 inline-flex min-h-11 items-center justify-center gap-2 self-start rounded-md px-5 py-2 text-sm font-bold uppercase tracking-widest transition-colors ${k === 0 ? "bg-primary-foreground text-primary hover:bg-accent" : "border border-primary text-primary hover:bg-primary hover:text-primary-foreground"}`}><Mail size={15} aria-hidden="true" />{sp.choose} {t.name}</a>
             </article>
           ))}
         </div>
@@ -986,6 +1136,7 @@ export default function App() {
               <caption className="sr-only">{sp.addonsTitle}</caption>
               <tbody>{sp.addons.map(([n, pr, d]) => <tr key={n} className="border-b border-border"><th scope="row" className="py-4 pr-4 align-top font-bold text-primary">{n}<span className="mt-1 block text-sm font-normal text-muted-foreground">{d}</span></th><td className="whitespace-nowrap py-4 text-right align-top font-serif text-lg">{pr}</td></tr>)}</tbody>
             </table>
+            <a href={`mailto:${LINKS.sponsor}?subject=${encodeURIComponent(sp.subject)}`} className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-secondary underline decoration-2 underline-offset-4"><Mail size={14} aria-hidden="true" />{sp.addonsCta}</a>
           </div>
           <div className="min-w-0 bg-accent p-6 text-accent-foreground" style={{ flex: "1 1 320px", borderRadius: "var(--radius)" }}>
             <h3 className="font-serif text-xl font-semibold">{sp.inkindTitle}</h3>
@@ -1002,7 +1153,8 @@ export default function App() {
         <div className="mt-8">
           <H2>{sp.wallTitle}</H2>
           <p className="mt-3 text-base text-muted-foreground">{sp.wallIntro}</p>
-          <div className="mt-8"><SponsorWall tiers={sp.tiers} slotLabel={sp.slot} /></div>
+          <div className="mt-8"><SponsorWall tiers={sp.tiers} slotLabel={sp.slot} newTab={c.meta.opensNew} /></div>
+          <a href={`mailto:${LINKS.sponsor}?subject=${encodeURIComponent(sp.subject)}`} className="c27-cta mt-10 inline-flex min-h-12 items-center gap-3 rounded-md bg-secondary px-7 py-3 text-sm font-bold uppercase tracking-widest text-secondary-foreground underline-offset-4 transition-colors hover:underline"><Mail size={16} aria-hidden="true" />{sp.wallCta}</a>
         </div>
       </Section>
       <Section>
@@ -1264,13 +1416,22 @@ export default function App() {
                     {sp.tiers.map((t, n) => (
                       <div key={t.id} role="listitem" className="flex flex-wrap items-center gap-4 border-t border-border pt-3">
                         <p className="flex w-48 shrink-0 items-center gap-2"><LevelBadge n={n + 1} /><span><span className="block text-sm font-bold text-primary">{t.name}</span><span className="block text-xs text-muted-foreground">{t.level}</span></span></p>
-                        <ul className="grid min-w-0 flex-1 gap-3" style={{ gridTemplateColumns: `repeat(auto-fill, minmax(min(100%, ${{ xl: "100%", lg: "70%", md: "170px", sm: "110px" }[t.size]}), 1fr))` }} aria-label={t.name}>
-                          {Array.from({ length: t.slots }).map((_, k) => (
+                        <div className="min-w-0 flex-1 space-y-3">
+                        {(CONFIRMED[t.id]?.length ?? 0) > 0 && (
+                          <ul className="flex flex-wrap items-center gap-x-10 gap-y-4" aria-label={t.name}>
+                            {CONFIRMED[t.id].map((s) => <SponsorMark key={s.name} s={s} newTab={c.meta.opensNew} h={{ xl: "h-14", lg: "h-12", md: "h-10", sm: "h-9" }[t.size]} />)}
+                          </ul>
+                        )}
+                        {t.slots > (CONFIRMED[t.id]?.length ?? 0) && (
+                        <ul className="grid gap-3" style={{ gridTemplateColumns: `repeat(auto-fill, minmax(min(100%, ${{ xl: "100%", lg: "70%", md: "170px", sm: "110px" }[t.size]}), 1fr))` }} aria-label={`${t.name}: ${sp.slot}`}>
+                          {Array.from({ length: t.slots - (CONFIRMED[t.id]?.length ?? 0) }).map((_, k) => (
                             <li key={k} className={`flex items-center justify-center border border-dashed border-border bg-background ${{ xl: "h-20", lg: "h-16", md: "h-12", sm: "h-10" }[t.size]}`} style={{ borderRadius: "var(--radius)" }}>
                               <span className={`uppercase text-muted-foreground ${t.size === "xl" ? "text-sm" : "text-xs"}`} style={{ letterSpacing: "0.16em" }}>{sp.slot}</span>
                             </li>
                           ))}
                         </ul>
+                        )}
+                        </div>
                       </div>
                     ))}
                   </div>
